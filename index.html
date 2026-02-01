@@ -471,8 +471,11 @@
         width: 100% !important;
     }
 
-    @media (max-width: 768px) {
-    /* 1. VENTANA: Pantalla completa absoluta sin bordes */
+@media (max-width: 768px) {
+    /* 1. Bloqueamos el movimiento de la pantalla */
+    body { overflow: hidden !important; position: fixed; width: 100%; }
+
+    /* 2. Ventana a pantalla completa total */
     .modal-content {
         width: 100vw !important;
         height: 100vh !important;
@@ -481,125 +484,107 @@
         left: 0 !important;
         padding: 0 !important;
         display: flex !important;
-        flex-direction: column !important; /* Capas verticales */
+        flex-direction: column !important; /* Todo hacia abajo */
         border: none !important;
+        overflow-y: auto !important; /* El scroll es de la ventana completa */
     }
 
-    /* 2. BOTÓN CERRAR: En una esquina protegida */
+    /* 3. Botón cerrar: arriba a la derecha, fijo */
     .close-btn {
-        position: fixed !important;
-        top: 10px !important;
+        position: absolute !important;
+        top: 15px !important;
         right: 15px !important;
         z-index: 10001 !important;
         background: var(--bg-negro);
         border: 1px solid var(--rojo-error);
-        padding: 5px 12px;
-        font-size: 1.4rem !important;
+        padding: 5px 15px;
     }
 
-    /* 3. CAPA 1: BARRA DE SHORTCUTS (Sidebar convertida a Nav) */
+    /* 4. Dashboard e Inicio (Ajuste para que no sea un tubo estrecho) */
+    .dashboard-container {
+        padding: 25px !important;
+        margin: 10px !important;
+        width: calc(100% - 20px) !important;
+        max-width: none !important;
+    }
+    .dashboard-container h1 { font-size: 1.6rem !important; }
+    .dashboard-item summary { font-size: 0.8rem !important; }
+
+    /* 5. Estructura del explorador: Sidebar -> Toolbar -> Contenido */
+    .win-body {
+        flex-direction: column !important; /* La sidebar ahora va ARRIBA del visor */
+        overflow: visible !important;
+    }
+
+    /* 6. SIDEBAR (Shortcuts): Lista vertical simple arriba */
     .win-sidebar {
         width: 100% !important;
         height: auto !important;
         border-right: none !important;
-        border-bottom: 1px solid var(--verde-base) !important;
-        background: rgba(10, 12, 10, 0.95) !important;
-        display: flex !important;
-        flex-direction: row !important; /* Ítems en fila horizontal */
-        overflow-x: auto !important; /* ¡SCROLL LATERAL PARA DISCOS Y ACCESOS! */
-        padding: 10px 15px !important;
-        padding-top: 50px !important; /* Espacio para que no lo tape la X */
-        gap: 12px !important;
-        z-index: 10;
-        -webkit-overflow-scrolling: touch;
+        border-bottom: 1px solid var(--borde-dark) !important;
+        padding: 60px 15px 15px 15px !important; /* Espacio para que la X no tape nada */
+        background: rgba(158, 194, 158, 0.05) !important;
+        display: block !important; /* Quitamos el flex-row que causaba el scroll */
     }
 
-    .side-label { display: none !important; } /* Ocultamos etiquetas estáticas */
+    .side-label { 
+        display: block !important; 
+        font-size: 0.6rem !important;
+        margin: 10px 0 5px 0 !important;
+    }
 
     .side-item {
-        flex: 0 0 auto !important; /* No se encogen */
-        padding: 8px 12px !important;
+        width: 100% !important; /* Ocupa todo el ancho, uno debajo de otro */
+        margin-bottom: 5px !important;
+        padding: 10px !important;
+        background: rgba(0,0,0,0.3) !important;
+        font-size: 0.75rem !important;
         border: 1px solid var(--borde-dark) !important;
-        background: rgba(158, 194, 158, 0.05);
-        font-size: 0.7rem !important;
-        white-space: nowrap !important; /* Evita que el nombre del disco se corte */
     }
 
-    /* 4. CAPA 2: BARRA DE HERRAMIENTAS (View S/M/L) */
+    /* 7. Barra de herramientas (VIEW S/M/L) */
     .win-toolbar {
-        height: auto !important;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--bg-negro) !important;
         padding: 10px !important;
-        background: var(--borde-dark) !important;
-        display: flex !important;
-        justify-content: space-around !important; /* Reparte botones VIEW */
+        justify-content: center !important;
         border-bottom: 1px solid var(--verde-base) !important;
     }
 
-    .win-view-selector {
-        margin: 0 !important;
-        padding: 0 !important;
-        border: none !important;
-    }
-
-    /* 5. CAPA 3: CUERPO PRINCIPAL (Visor de contenido) */
-    .win-body {
-        flex-direction: column !important; /* Apila sidebar sobre visor */
-        flex: 1 !important;
-        overflow: hidden !important;
-    }
-
+    /* 8. Área de visualización (Carpetas y Bots) */
     .win-viewport {
-        padding: 15px !important;
-        overflow-y: auto !important; /* Scroll vertical para bots */
-        height: 100% !important;
+        padding: 20px 15px !important;
+        flex: none !important;
     }
 
-    /* 6. GRID DE CARPETAS: 2 columnas fijas */
+    /* Carpetas: 2 por fila para que se lean bien */
     .explorer-grid {
         grid-template-columns: 1fr 1fr !important;
         gap: 15px !important;
     }
 
-    .win11-folder {
-        width: 55px !important;
-        height: 40px !important;
-    }
-
-    .folder-name {
-        font-size: 0.65rem !important;
-    }
-
-    /* 7. GRID DE BOTS: 1 sola columna para que no se peguen */
+    /* Bots: 1 por fila para que el efecto SCAN funcione */
     .unit-grid {
         grid-template-columns: 1fr !important;
-        gap: 20px !important;
-        width: 100% !important;
+        gap: 25px !important;
     }
 
     .unit-card-wrapper {
-        width: 100% !important;
-        height: 350px !important; /* Espacio para el efecto SCAN */
+        height: 300px !important;
     }
 
-    /* 8. HEADER Y COMANDOS DEL DASHBOARD */
-    header { padding: 10px !important; text-align: center; }
-    .command-bar { padding: 5px !important; gap: 5px !important; }
-    .btn { 
-        flex: 1 1 45% !important; 
-        font-size: 0.65rem !important; 
-        padding: 6px 5px !important; 
-    }
-
-    .dashboard-container { padding: 20px !important; margin: 5px !important; }
-    .dashboard-container h1 { font-size: 1.5rem !important; }
-
-    /* Barra de ruta (Path) */
+    /* Ajuste de ruta */
     .path-bar {
         font-size: 0.6rem !important;
-        text-align: left !important;
-        white-space: nowrap;
-        overflow-x: auto;
+        word-break: break-all;
     }
+
+    /* Header superior del sitio */
+    .os-header { padding: 10px !important; }
+    .command-bar { padding: 10px !important; gap: 5px !important; }
+    .btn { flex: 1 1 45% !important; font-size: 0.6rem !important; }
 }
 
 
