@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KENEQ.SYS // Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+</head>
+
+<style>   
+
+        /* --- PALETA DE COLORES OFICIAL --- */
+        :root {
+            --bg-negro:    #0a0c0a; 
+            --verde-base:  #9ec29e; 
+            --verde-high:  #cceecc; 
+            --borde-dark:  #1a201a; 
+            --rojo-error:  #ff4444; 
+            --gris-dim:    #6e7a6e; 
+            --glow: 0 0 12px rgba(158, 194, 158, 0.3);
+        }
+
+        /* --- RESET Y BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        body {
+            background-color: var(--bg-negro);
+            color: var(--verde-base);
+            font-family: 'Share Tech Mono', monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- CAPAS DE FONDO --- */
+        #profile-gif-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.3;
+            filter: grayscale(1) brightness(0.4);
+
+            /* VALORES AJUSTADOS: Subimos opacidad y brillo */
+            opacity: 0.6 !important; 
+            filter: brightness(0.8) grayscale(0.6) contrast(1.2) !important;
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--borde-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 12, 10, 0.9);
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            color: var(--verde-high);
+            text-shadow: var(--glow);
+            letter-spacing: 2px;
+        }
+
+        /* --- COMANDOS --- */
+        .command-bar {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--verde-base);
+            color: var(--verde-base);
+            padding: 10px 25px;
+            font-family: inherit;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(158, 194, 158, 0.1);
+            color: var(--verde-high);
+            box-shadow: var(--glow);
+        }
+
+        /* --- DASHBOARD (REPLICADO EXACTO) --- */
+        .main-viewport {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            background: rgba(10, 12, 10, 0.9);
+            border: 1px solid var(--verde-base);
+            padding: 35px 45px;
+            max-width: 780px;
+            width: 100%;
+        }
+
+        .dashboard-container h1 {
+            font-size: 1.8rem;
+            color: var(--verde-high);
+            margin-bottom: 10px;
+        }
+
+        .dashboard-container .subtitle {
+            font-size: 1.1rem;
+            color: var(--gris-dim);
+            border-left: 2px solid var(--verde-base);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .dashboard-item {
+            border: 1px solid var(--borde-dark);
+            margin-bottom: 10px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .dashboard-item summary {
+            list-style: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            color: var(--verde-high);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dashboard-item summary::-webkit-details-marker { display: none; }
+
+        .dashboard-item summary::before {
+            content: "▶";
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+
+        .dashboard-item[open] summary::before { transform: rotate(90deg); }
+
+        .dashboard-item .inner-content {
+            padding: 15px 20px;
+            border-top: 1px solid var(--borde-dark);
+            color: var(--gris-dim);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- ESTRUCTURA VENTANA WINDOWS 11 --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9000;
+            justify-content: center; align-items: center;
+        }
+
+        .modal-content {
+            background: var(--bg-negro);
+            border: 1px solid var(--verde-base);
+            width: 95%;
+            max-width: 1100px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Barra Lateral y Cuerpo */
+        .win-body { 
+            display: flex; 
+            flex: 1; 
+            overflow: hidden; 
+        }
+
+        .win-sidebar {
+            width: 220px;
+            border-right: 1px solid var(--borde-dark);
+            background: rgba(158, 194, 158, 0.02);
+            padding: 20px;
+        }
+
+        .side-label { 
+            font-size: 0.7rem; 
+            color: var(--gris-dim); 
+            margin-bottom: 10px; 
+            text-transform: uppercase; 
+        }
+
+        .side-item {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+
+        .side-item:hover { 
+            background: rgba(158, 194, 158, 0.1); 
+            color: var(--verde-high); 
+        }
+
+        .win-viewport { 
+            flex: 1; 
+            padding: 30px; 
+            overflow-y: auto; 
+        }
+
+        .close-btn { 
+            position: absolute; 
+            top: 10px; 
+            right: 
+            20px; 
+            font-size: 2rem; 
+            color: var(--rojo-error); 
+            text-decoration: none; 
+            z-index: 100; 
+        }
+
+        /* --- ICONO CARPETA WIN11 REAL --- */
+        .explorer-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .folder-wrapper {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 10px; 
+            cursor: pointer; 
+            transition: 0.2s;
+        }
+
+        .win11-folder {
+            position: relative;
+            width: 65px;
+            height: 50px;
+        }
+
+        .folder-back {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--verde-base);
+            clip-path: polygon(0% 15%, 35% 15%, 42% 0%, 95% 0%, 100% 15%, 100% 100%, 0% 100%);
+            border-radius: 3px; opacity: 0.7;
+        }
+
+        .folder-front {
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 82%;
+            background: linear-gradient(135deg, var(--verde-high) 0%, var(--verde-base) 100%);
+            border-radius: 2px 5px 3px 3px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.4);
+            border-top: 1px solid rgba(255,255,255,0.3);
+            transition: transform 0.3s;
+            transform-origin: bottom;
+        }
+
+        .folder-wrapper:hover .folder-front { 
+            transform: rotateX(-15deg) 
+            skewX(-5deg); 
+        }
+
+        .folder-name { 
+            font-size: 0.75rem; 
+            color: var(--verde-high); 
+            font-weight: bold; 
+            text-align: center; 
+        }
+
+        /* --- TARJETAS SCAN (INTACTO) --- */
+        .unit-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, 
+            minmax(280px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .unit-card-wrapper {
+            height: 320px; 
+            position: relative; 
+            border: 1px solid var(--verde-base);
+            background: #050705; 
+            overflow: hidden; 
+            border-radius: 12px 0 12px 0; 
+            transition: 0.3s;
+        }
+
+        .unit-image-link {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            z-index: 1; 
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .unit-card-wrapper:hover .unit-image-link { 
+            height: 150px; 
+        }
+
+        .unit-image-link img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: brightness(0.4) grayscale(0.5); 
+            transition: 0.5s; 
+        }
+
+        .unit-card-wrapper:hover img { 
+            filter: brightness(1) grayscale(0); 
+        }
+
+        .unit-card-wrapper::before {
+            content: ":: SCAN DATA ::"; 
+            position: absolute;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            z-index: 5; 
+            color: #fff; 
+            font-size: 0.8rem; 
+            pointer-events: none; 
+            transition: 0.3s;
+        }
+
+        .unit-card-wrapper:hover::before { 
+            opacity: 0; 
+        }
+
+        .unit-info { 
+            position: absolute; 
+            top: 160px; 
+            left: 0; 
+            width: 100%; 
+            padding: 15px; 
+            opacity: 0; 
+            transition: 0.4s ease 0.2s; 
+            z-index: 2; 
+        }
+        .unit-card-wrapper:hover .unit-info { 
+            opacity: 1; 
+        }
+
+        .unit-name { 
+            color: var(--verde-high); 
+            font-size: 1.2rem; 
+            margin-bottom: 5px; 
+            display: block; 
+        }
+
+        .unit-desc { 
+            font-size: 0.85rem; 
+            color: var(--gris-dim); 
+            line-height: 1.3; 
+        }
+
+        /* --- STATUS HUD --- */
+        .status-row { display: flex; 
+            justify-content: space-between; 
+            padding: 10px 0; 
+            border-bottom: 1px solid var(--borde-dark); 
+        }
+        
+        .status-online { 
+            color: #00ff00; 
+            text-shadow: 0 0 5px #00ff00; 
+        }
+
+        /* --- SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-negro); }
+        ::-webkit-scrollbar-thumb { background: var(--verde-base); }
+
+        .win-view-selector {
+        margin-left: 20px;
+        display: flex;
+        gap: 10px;
+        border-left: 1px solid var(--borde-dark);
+        padding-left: 20px;
+        }
+
+        .view-btn {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border: 1px solid var(--gris-dim);
+            color: var(--gris-dim);
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .view-btn:hover, .view-btn.active {
+            color: var(--verde-high);
+            border-color: var(--verde-base);
+            background: rgba(158, 194, 158, 0.1);
+        }
+
+        /* --- MODOS DE TAMAÑO PARA EL GRID --- */
+
+        /* PEQUEÑO (S) */
+        .explorer-grid.size-s { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 15px; }
+        .explorer-grid.size-s .win11-folder { width: 45px; height: 35px; }
+        .explorer-grid.size-s .folder-name { font-size: 0.65rem; }
+
+        .unit-grid.size-s { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+        .unit-grid.size-s .unit-card-wrapper { height: 200px; }
+        .unit-grid.size-s .unit-card-wrapper:hover .unit-image-link { height: 80px; }
+        .unit-grid.size-s .unit-info { top: 90px; padding: 8px; }
+        .unit-grid.size-s .unit-name { font-size: 0.9rem; }
+        .unit-grid.size-s .unit-desc { font-size: 1.2rem;} 
+
+        /* MEDIANO (M) */
+        .explorer-grid.size-m { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+
+        /* GRANDE (L) */
+        .unit-grid.size-l { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
+        .unit-grid.size-l .unit-card-wrapper { height: 400px; }
+
+        .unit-grid {
+        display: grid !important;
+        width: 100% !important; /* Obliga al grid a usar todo el ancho de la ventana */
+        gap: 20px;
+        padding: 10px;
+        align-content: start;
+    }
+
+    /* Asegura que el visor de la derecha crezca y no se bloquee */
+        .win-main-view, .win-viewport {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+
+    @media (max-width: 768px) {
+    /* 1. Ajuste del Header: Logo arriba y reloj abajo */
+    header {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+        gap: 10px;
+    }
+    .logo { font-size: 1.1rem; }
+
+    /* 2. Comandos: Botones en cuadrícula para que no se salgan */
+    .command-bar {
+        flex-wrap: wrap;
+        padding: 10px;
+        gap: 8px;
+    }
+    .btn {
+        flex: 1 1 45%; /* Dos botones por fila */
+        padding: 8px 5px;
+        font-size: 0.7rem;
+    }
+
+    /* 3. Dashboard (Inicio): Menos espacio lateral */
+    .dashboard-container {
+        padding: 20px;
+        margin: 10px;
+        border-width: 1px;
+    }
+    .dashboard-container h1 { font-size: 1.8rem; }
+
+    /* 4. VENTANA EXPLORADOR: El cambio más grande */
+    .modal-content {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        border: none;
+    }
+
+    .win-body {
+        flex-direction: column; /* Sidebar arriba, Contenido abajo */
+    }
+
+    .win-sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--borde-dark);
+        display: flex;
+        overflow-x: auto; /* Sidebar horizontal en móvil */
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .side-label { display: none; } /* Ocultamos etiquetas de texto en la sidebar */
+
+    .side-item {
+        white-space: nowrap; /* Que no se rompa el texto */
+        padding: 5px 10px;
+        background: rgba(158, 194, 158, 0.1);
+    }
+
+    .win-viewport {
+        padding: 15px;
+    }
+
+    /* 5. Grid de Bots: Una sola columna para que se vea la info */
+    .unit-grid {
+        grid-template-columns: 1fr !important; 
+    }
+
+    .unit-card-wrapper {
+        height: 300px;
+    }
+
+    /* 6. Carpetas en móvil: Más pequeñas */
+    .explorer-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 15px;
+    }
+    .win11-folder {
+        width: 50px;
+        height: 38px;
+    }
+
+    /* 7. Ajuste del Path Bar */
+    .path-bar {
+        font-size: 0.65rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+
+        
+</style>
+
+<body>
+
+    <div class="crt-overlay"></div>
+    <img id="profile-gif-bg" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhmYnN5YWFwNnkxNmdyMHZjZGJieDRiYmQyZ2Jnd25rZTloZjRuMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VeWkxETRDSWJcgRTLQ/giphy.gif">
+
+    <header>
+        <div class="logo">KENEQ.SYS // TERMINAL v2.0</div>
+        <div id="clock">00:00:00</div>
+    </header>
+
+    <nav class="command-bar">
+        <button class="btn" onclick="goToDashboard()">DASHBOARD</button>
+        <button class="btn" onclick="openModal('modal-explorer')">UNITS_DATABASE</button>
+        <button class="btn" onclick="openModal('modal-status')">SYSTEM_STATUS</button>
+        <button class="btn" onclick="window.open('https://janitorai.com/profiles/545c2fad-bf1f-4a6c-af5f-6dc4c705d448_profile-of-keneq-sys', '_blank')">RETURN_TO_JAI</button>
+    </nav>
+
+    <!-- DASHBOARD PRINCIPAL -->
+    <main class="main-viewport">
+        <div class="dashboard-container">
+            <h1>> WELCOME_OPERATOR</h1>
+            <p class="subtitle">"The static is where the real stories are told."</p>
+            
+            <details class="dashboard-item" open>
+                <summary>:: MANIFESTO.txt</summary>
+                <div class="inner-content">
+                    "We don't create bots; we launch narrative simulations. This is a terminal for the discerning user, one who understands that the most compelling stories are found in the grey areas, in the static between signals."
+                </div>
+            </details>
+
+            <details class="dashboard-item">
+                <summary>:: PARAMETERS.log</summary>
+                <div class="inner-content">
+                    • CONTENT: Dark Narrative / NSFW Focus<br>
+                    • PROTOCOL: Multi-paragraph Literacy<br>
+                    • VERSIONS: 0001.
+                </div>
+            </details>
+        </div>
+    </main>
+
+    <!-- VENTANA EXPLORADOR (WINDOWS 11 STYLE) -->
+    <!-- VENTANA ÚNICA DE BASE DE DATOS -->
+<div id="modal-explorer" class="modal">
+    <div class="modal-content">
+        <a href="javascript:closeModal('modal-explorer')" class="close-btn">×</a>
+            <div class="win-body">
+                
+            <!-- BARRA LATERAL (Sidebar) -->
+            <aside class="win-sidebar">
+                <div class="side-label">Quick Access</div>
+                <div class="side-item" onclick="openFolderContent('view-root')">🏠 Home_Root</div>
+                <div class="win-view-selector">
+                <span style="font-size: 0.6rem; color: var(--gris-dim); align-self: center;">VIEW:</span>
+                <button class="view-btn" onclick="setViewSize('size-s')">S</button>
+                <button class="view-btn active" onclick="setViewSize('size-m')">M</button>
+                <button class="view-btn" onclick="setViewSize('size-l')">L</button>
+            </div>
+                
+                
+              
+                <div class="side-item" onclick="openFolderContent('view-scp')">📁 SCP_Data</div>
+                <div class="side-item" onclick="openFolderContent('view-uncat')">📁 UNCAT_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-dogknights')">📁 DOGKNIGHTS_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-request')">📁 REQUESTS_DATA</div>
+                
+                
+
+
+                <hr style="border:0; border-top:1px solid var(--borde-dark); margin:15px 0;">
+                <div class="side-label">This PC</div>
+                
+                <div class="side-item" onclick="openFolderContent('main-explorer-root')">💾 Local Disk (C:)</div>
+                <div class="side-item" style="opacity: 0.5;">💾 Network (N:)</div>
+                <div class="side-item" onclick="openFolderContent('main-explorer-root')">💾 System_Storage</div>
+                
+                <div class="side-label">Network</div>
+                <div class="side-item" style="opacity: 0.5;">🌐 Remote_Server</div>
+            </aside>
+
+            
+            <section class="win-main-view">
+                <div class="path-bar" id="current-path">This PC > Local Disk (C:) > Units</div>
+
+                <!-- 1. VISTA DE ICONOS (La pantalla con las carpetas Win11) -->
+                <div id="view-root" class="view-content" style="display: block;">
+                    <div class="explorer-grid size-m">
+                        
+                        
+                        <div class="folder-wrapper" onclick="openFolderContent('view-scp')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">SCP_DATA</span>
+                        </div>
+
+                        <div class="folder-wrapper" onclick="openFolderContent('view-dogknights')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">DOGKNIGHTS_DATA</span>
+                        </div>
+
+                        <div class="folder-wrapper" onclick="openFolderContent('view-request')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">REQUESTS_DATA</span>
+                        </div>
+
+                        <div class="folder-wrapper" onclick="openFolderContent('view-uncat')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">UNCAT_DATA</span>
+                        </div>
+                        <!-- FIN COPIA -->
+
+                    </div>
+                </div>
+
+                <!-- 2. VISTA DE BOTS: CARPETA SCP -->
+                <div id="view-scp" class="view-content" style="display: none;">
+                    <div class="unit-grid size-s">
+                        <!-- COPIA ESTO PARA CADA BOT -->
+                        <div class="unit-card-wrapper">
+                            <a href="https://janitorai.com/characters/d2d9df94-cbc3-4b64-8299-09dd5208b44f_character-karla" target="_blank" class="unit-image-link">
+                                <img src="https://ella.janitorai.com/media-approved/dhbBzAKR-IL82gkyTT6uS.webp">
+                            </a>
+                            <div class="unit-info">
+                                <span class="unit-name">KARLA</span>
+                                <p class="unit-desc">...</p>
+                            </div>
+                        </div>
+                        <!-- FIN COPIA BOT -->
+
+
+
+
+                    </div>
+                </div>
+
+                <!-- 3. VISTA DE BOTS: CARPETA FANDOM -->
+                <div id="view-fandom" class="view-content" style="display: none;">
+                    <div class="unit-grid size-s">
+                        <!-- Aquí poner bots -->
+                    </div>
+                </div>
+
+                <!-- 4. OTRA CARPETA, PEGAR OTRO <div id="view-loquesea" class="view-content"> AQUÍ -->
+
+            </section>
+        </div>
+    </div>
+</div>
+
+
+    <!-- STATUS HUD COMPLETO -->
+    <div id="modal-status" class="modal">
+        <div class="modal-content" style="max-width: 600px; height: auto; padding: 30px;">
+            <a href="javascript:closeModal('modal-status')" class="close-btn">×</a>
+            <h2 style="margin-bottom: 20px;">// SYSTEM_STATUS_HUD</h2>
+            <div class="status-row"><span>USER_STATUS:</span><span class="status-online">OPERATIONAL</span></div>
+            <div class="status-row"><span>ACTIVE_TASK:</span><span style="color:var(--verde-high)">COMPILING_UNIT_CORES</span></div>
+            <div class="status-row"><span>INCOMING_REQUESTS:</span><a href="https://forms.gle/unzjPimuZkMuMS9M7" target="_blank" style="color:var(--bg-negro); background:var(--verde-base); padding:2px 8px; text-decoration:none;">[ OPEN_FORM ]</a></div>
+            <div style="margin-top: 25px; padding: 15px; border: 1px solid var(--borde-dark); background: rgba(0,0,0,0.3);">
+                <p style="color: var(--gris-dim); font-style: italic;">"They closed one door. Now we operate from the shadows. The old signal is gone, but the echo remains."</p>
+            </div>
+        </div>
+    </div>
+
+<!-- ELEMENTOS DE AUDIO LOCALES -->
+<audio id="snd-ambience" loop src="TERMINAL.Audio/Ambience_terminal_1.wav"></audio>
+<audio id="terminal-sequencer" src=""></audio>
+<audio id="snd-click" src="TERMINAL.Audio/click.wav"></audio>
+<audio id="snd-close" src="TERMINAL.Audio/close.wav"></audio>
+
+<script>
+     function openModal(id) { 
+        document.getElementById(id).style.display = 'flex'; 
+    }
+    
+    function closeModal(id) { 
+        document.getElementById(id).style.display = 'none'; 
+    }
+
+   
+    function openFolderContent(folderId) {
+       
+        const allViews = document.querySelectorAll('.view-content');
+        allViews.forEach(view => {
+            view.style.display = 'none';
+        });
+
+        
+        const targetFolder = document.getElementById(folderId);
+        if (targetFolder) {
+            targetFolder.style.display = 'block';
+        } else {
+            console.error("Error: No se encontró la carpeta con ID: " + folderId);
+        }
+    }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleTimeString('es-ES', {hour12: false});
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    const clickSnd = document.getElementById('snd-click');
+    const closeSnd = document.getElementById('snd-close');
+    const ambienceSnd = document.getElementById('snd-ambience');
+    
+
+    
+    window.onload = function() {
+        ambienceSnd.volume = 0.3; 
+        ambienceSnd.play().catch(e => console.log("Autoplay bloqueado por el navegador"));
+        clickSnd.volume = 0.3;  
+        closeSnd.volume = 0.3;
+    };
+
+    
+    function goToDashboard() {
+        clickSnd.currentTime = 0;
+        clickSnd.play();
+        
+       
+        const allModals = document.querySelectorAll('.modal');
+        allModals.forEach(m => {
+            m.style.display = 'none';
+        });
+    }
+
+    function openModal(id) {
+        clickSnd.currentTime = 0; 
+        clickSnd.play();
+        document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+        closeSnd.currentTime = 0;
+        closeSnd.play();
+        document.getElementById(id).style.display = 'none';
+    }
+
+    function openFolderContent(folderId) {
+        clickSnd.currentTime = 0;
+        clickSnd.play();
+
+        
+        const allViews = document.querySelectorAll('.view-content');
+        allViews.forEach(view => { view.style.display = 'none'; });
+
+        const target = document.getElementById(folderId);
+        if (target) {
+            target.style.display = 'block';
+            
+            const pathBar = document.getElementById('current-path');
+            if(pathBar) {
+                if(folderId === 'main-explorer-root') pathBar.innerText = "This PC > Local Disk (C:) > Units";
+                if(folderId === 'view-scp-data') pathBar.innerText = "This PC > Local Disk (C:) > Units > SCP_DATA";
+                if(folderId === 'view-fandom-data') pathBar.innerText = "This PC > Local Disk (C:) > Units > FANDOM_CORE";
+            }
+        }
+    }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleTimeString('es-ES', {hour12: false});
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function setViewSize(sizeClass) {
+    if(clickSnd) { clickSnd.currentTime = 0; clickSnd.play(); }
+
+    
+    document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+    window.event.target.classList.add('active');
+
+    const allGrids = document.querySelectorAll('.explorer-grid, .unit-grid');
+    allGrids.forEach(grid => {
+        grid.classList.remove('size-s', 'size-m', 'size-l');
+        grid.classList.add(sizeClass);
+    });
+}
+
+const noteFiles = [
+        "TERMINAL.Audio/Ambience_terminal_rnd_1.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_2.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_3.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_4.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_5.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_6.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_7.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_8.wav",
+        "TERMINAL.Audio/Ambience_terminal_rnd_9.wav"
+    ];
+
+    let currentNoteIndex = 0;
+    const sequencer = document.getElementById('terminal-sequencer');
+    
+    
+    const delayBetweenNotes = 3000; 
+
+    function playNextNote() {
+        
+        sequencer.src = noteFiles[currentNoteIndex];
+        sequencer.volume = 1; 
+        
+        sequencer.play().catch(e => console.log("Esperando interacción para iniciar secuencia..."));
+
+        
+        currentNoteIndex++;
+
+        
+        if (currentNoteIndex >= noteFiles.length) {
+            currentNoteIndex = 0;
+        }
+    }
+
+    
+    window.addEventListener('load', () => {
+       
+        setTimeout(playNextNote, 1000);
+    });
+
+    
+    sequencer.onended = function() {
+        setTimeout(playNextNote, delayBetweenNotes);
+    };
+</script>
+
+</body>
+</html>
