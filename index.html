@@ -473,95 +473,97 @@
 
 
     @media (max-width: 768px) {
-    /* 1. Ajuste del Header: Logo arriba y reloj abajo */
-    header {
-        flex-direction: column;
-        padding: 15px;
-        text-align: center;
-        gap: 10px;
-    }
-    .logo { font-size: 1.1rem; }
-
-    /* 2. Comandos: Botones en cuadrícula para que no se salgan */
-    .command-bar {
-        flex-wrap: wrap;
-        padding: 10px;
-        gap: 8px;
-    }
-    .btn {
-        flex: 1 1 45%; /* Dos botones por fila */
-        padding: 8px 5px;
-        font-size: 0.7rem;
-    }
-
-    /* 3. Dashboard (Inicio): Menos espacio lateral */
-    .dashboard-container {
-        padding: 20px;
-        margin: 10px;
-        border-width: 1px;
-    }
-    .dashboard-container h1 { font-size: 1.8rem; }
-
-    /* 4. VENTANA EXPLORADOR: El cambio más grande */
+    /* 1. Modal a pantalla completa real */
     .modal-content {
-        width: 100% !important;
-        height: 100% !important;
+        width: 100vw !important;
+        height: 100vh !important;
         max-height: 100vh !important;
-        border: none;
+        border: none !important;
+        padding: 10px !important;
     }
 
+    /* 2. Botón de cerrar: lo alejamos de los otros botones */
+    .close-btn {
+        top: 5px !important;
+        right: 10px !important;
+        font-size: 1.8rem !important;
+    }
+
+    /* 3. Barra de herramientas: permitimos que los botones bajen si no caben */
+    .win-toolbar {
+        height: auto !important;
+        flex-wrap: wrap !important;
+        padding: 10px !important;
+        gap: 10px !important;
+        margin-top: 30px !important; /* Espacio para que no choque con la X */
+    }
+
+    .win-tool-btn, .view-btn {
+        font-size: 0.65rem !important;
+        padding: 4px 6px !important;
+    }
+
+    /* 4. Estructura de la ventana: Sidebar arriba y Contenido abajo */
     .win-body {
-        flex-direction: column; /* Sidebar arriba, Contenido abajo */
+        flex-direction: column !important;
+        overflow-y: auto !important;
     }
 
+    /* 5. Sidebar horizontal: para que no robe espacio a los bots */
     .win-sidebar {
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--borde-dark);
-        display: flex;
-        overflow-x: auto; /* Sidebar horizontal en móvil */
-        padding: 10px;
-        gap: 10px;
+        width: 100% !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--borde-dark) !important;
+        display: flex !important;
+        overflow-x: auto !important; /* Deslizar de lado los accesos directos */
+        padding: 10px !important;
+        gap: 15px !important;
     }
 
-    .side-label { display: none; } /* Ocultamos etiquetas de texto en la sidebar */
-
+    .side-label { display: none !important; } /* Quitamos títulos para ahorrar espacio */
+    
     .side-item {
-        white-space: nowrap; /* Que no se rompa el texto */
-        padding: 5px 10px;
-        background: rgba(158, 194, 158, 0.1);
+        white-space: nowrap !important;
+        background: rgba(158, 194, 158, 0.05);
+        border: 1px solid var(--borde-dark);
+        padding: 5px 10px !important;
     }
 
+    /* 6. Viewport: El área donde se ven las carpetas y bots */
     .win-viewport {
-        padding: 15px;
+        padding: 15px !important;
     }
 
-    /* 5. Grid de Bots: Una sola columna para que se vea la info */
+    /* 7. Grid de Carpetas: iconos más pequeños para que quepan 2 o 3 por fila */
+    .explorer-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
+        gap: 15px !important;
+        justify-items: center;
+    }
+
+    .win11-folder {
+        width: 50px !important;
+        height: 38px !important;
+    }
+
+    .folder-name {
+        font-size: 0.65rem !important;
+    }
+
+    /* 8. Grid de Bots: 1 sola columna para que no se peguen */
     .unit-grid {
-        grid-template-columns: 1fr !important; 
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
 
     .unit-card-wrapper {
-        height: 300px;
+        height: 280px !important;
     }
 
-    /* 6. Carpetas en móvil: Más pequeñas */
-    .explorer-grid {
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-        gap: 15px;
-    }
-    .win11-folder {
-        width: 50px;
-        height: 38px;
-    }
-
-    /* 7. Ajuste del Path Bar */
     .path-bar {
-        font-size: 0.65rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.6rem !important;
+        margin-bottom: 15px !important;
     }
 }
 
