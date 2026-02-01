@@ -473,115 +473,99 @@
 
 
     @media (max-width: 768px) {
-    /* 1. Forzamos el contenedor a ser una columna vertical */
+    /* 1. Forzamos la ventana a pantalla completa absoluta */
     .modal-content {
         width: 100vw !important;
         height: 100vh !important;
         max-height: 100vh !important;
         top: 0 !important;
         left: 0 !important;
-        display: flex !important;
-        flex-direction: column !important; /* Todo uno debajo de otro */
-        padding-top: 50px !important; /* Espacio para la X de arriba */
         border: none !important;
+        display: flex !important;
+        flex-direction: column !important; /* Apilamos todo verticalmente */
     }
 
-    /* 2. El botón de cerrar (X) ahora tiene su propio espacio arriba */
+    /* 2. Botón cerrar: arriba a la derecha, solo */
     .close-btn {
-        position: fixed !important;
+        position: absolute !important;
         top: 10px !important;
-        right: 20px !important;
-        z-index: 10001 !important;
-        background: var(--bg-negro);
-        border: 1px solid var(--rojo-error);
-        padding: 5px 15px;
-        line-height: 1;
+        right: 10px !important;
+        z-index: 999 !important;
     }
 
-    /* 3. Quitamos la estructura de escritorio (Sidebar al lado de Viewport) */
-    .win-body {
-        display: flex !important;
-        flex-direction: column !important; /* Sidebar arriba, carpetas abajo */
-        overflow: hidden !important;
-        flex: 1 !important;
-    }
-
-    /* 4. Barra Superior (Herramientas): la hacemos compacta */
+    /* 3. La barra de herramientas (Toolbar): le damos su propia fila */
     .win-toolbar {
+        margin-top: 50px !important; /* Bajamos la barra para que no choque con la X */
         height: auto !important;
+        flex-wrap: wrap !important; /* Si no caben los botones, que bajen */
         padding: 10px !important;
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 10px !important;
-        background: var(--borde-dark) !important;
-        border-bottom: 1px solid var(--verde-base) !important;
+        justify-content: center !important;
+        background: rgba(158, 194, 158, 0.1) !important;
     }
 
-    /* 5. SIDEBAR: Ahora es un menú de navegación horizontal arriba */
+    /* 4. Sidebar: La convertimos en un menú horizontal arriba */
+    .win-body {
+        flex-direction: column !important; /* Sidebar arriba, visor abajo */
+        overflow: hidden !important;
+    }
+
     .win-sidebar {
         width: 100% !important;
         height: auto !important;
+        min-height: 50px !important;
         border-right: none !important;
-        border-bottom: 1px solid var(--verde-base) !important;
+        border-bottom: 1px solid var(--borde-dark) !important;
         display: flex !important;
-        flex-direction: row !important; /* Ítems en fila */
-        overflow-x: auto !important; /* Scroll lateral si hay muchos */
+        flex-direction: row !important; /* Items uno al lado del otro */
+        overflow-x: auto !important; /* Scroll lateral para los iconos de disco/carpetas */
         padding: 10px !important;
-        gap: 10px !important;
-        background: rgba(0,0,0,0.4) !important;
-    }
-
-    /* Ocultamos las etiquetas de texto de la sidebar en móvil */
-    .side-label { display: none !important; }
-
-    .side-item {
-        flex: 0 0 auto !important;
-        padding: 8px 12px !important;
-        border: 1px solid var(--verde-base) !important;
-        font-size: 0.7rem !important;
-        white-space: nowrap !important;
-    }
-
-    /* 6. El área de contenido (Donde están las carpetas y bots) */
-    .win-main-view, .win-viewport {
-        flex: 1 !important;
-        padding: 15px !important;
-        overflow-y: auto !important;
-        background: var(--bg-negro) !important;
-    }
-
-    /* 7. Grid de Carpetas: 2 columnas fijas para que no se amontonen */
-    .explorer-grid {
-        grid-template-columns: 1fr 1fr !important;
         gap: 15px !important;
     }
 
-    .folder-wrapper {
-        width: auto !important;
+    /* Ocultamos los textos que ocupan espacio (This PC, Quick Access) */
+    .side-label { display: none !important; }
+
+    .side-item {
+        flex: 0 0 auto !important; /* Evita que los botones se encojan */
+        font-size: 0.7rem !important;
+        padding: 5px 10px !important;
+        background: rgba(158, 194, 158, 0.05) !important;
+        border: 1px solid var(--borde-dark) !important;
+    }
+
+    /* 5. Área de contenido (Visor de bots) */
+    .win-main-view, .win-viewport {
+        padding: 15px !important;
+        overflow-y: auto !important; /* Scroll vertical para ver los bots */
+        flex: 1 !important;
+    }
+
+    /* 6. Grid de Carpetas: 2 por fila para que se vean grandes */
+    .explorer-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 20px !important;
     }
 
     .win11-folder {
-        width: 60px !important;
-        height: 45px !important;
+        width: 55px !important;
+        height: 42px !important;
     }
 
-    /* 8. Grid de Bots: 1 sola columna obligatoria */
+    /* 7. Grid de Bots: 1 solo por fila para que la imagen sea funcional */
     .unit-grid {
         grid-template-columns: 1fr !important;
-        gap: 20px !important;
-        width: 100% !important;
+        gap: 25px !important;
     }
 
     .unit-card-wrapper {
+        height: 320px !important;
         width: 100% !important;
-        height: 350px !important; /* Altura suficiente para ver el Scan */
     }
 
-    /* Ruta de carpetas arriba */
+    /* Ajuste de la ruta (Path Bar) */
     .path-bar {
         font-size: 0.6rem !important;
-        margin-bottom: 15px !important;
-        color: var(--verde-base) !important;
+        text-align: center !important;
     }
 }
 
