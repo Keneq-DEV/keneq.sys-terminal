@@ -512,19 +512,22 @@
 
     /* 5. Estructura del explorador: Sidebar -> Toolbar -> Contenido */
     .win-body {
-        flex-direction: column !important; /* La sidebar ahora va ARRIBA del visor */
-        overflow: visible !important;
+        display: flex !important;
+        flex-direction: row !important; 
+        overflow: hidden !important;
     }
 
     /* 6. SIDEBAR (Shortcuts): Lista vertical simple arriba */
     .win-sidebar {
-        width: 100% !important;
-        height: auto !important;
-        border-right: none !important;
-        border-bottom: 1px solid var(--borde-dark) !important;
-        padding: 60px 15px 15px 15px !important; /* Espacio para que la X no tape nada */
-        background: rgba(158, 194, 158, 0.05) !important;
-        display: block !important; /* Quitamos el flex-row que causaba el scroll */
+        width: 60px !important; /* Muy delgada a la izquierda */
+        min-width: 60px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 60px 5px 10px 5px !important; /* Espacio para la X */
+        border-right: 1px solid var(--borde-dark) !important;
+        border-bottom: none !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
 
     .side-label { 
@@ -534,12 +537,11 @@
     }
 
     .side-item {
-        width: 100% !important; /* Ocupa todo el ancho, uno debajo de otro */
-        margin-bottom: 5px !important;
-        padding: 10px !important;
-        background: rgba(0,0,0,0.3) !important;
-        font-size: 0.75rem !important;
-        border: 1px solid var(--borde-dark) !important;
+        justify-content: center !important;
+        padding: 12px 0 !important;
+        font-size: 1.2rem !important; /* Iconos más grandes para picar con el dedo */
+        border: none !important;
+        background: transparent !important;
     }
 
     /* 7. Barra de herramientas (VIEW S/M/L) */
