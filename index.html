@@ -584,9 +584,23 @@
     }
 
     /* Header superior del sitio */
-    .os-header { padding: 10px !important; }
-    .command-bar { padding: 10px !important; gap: 5px !important; }
-    .btn { flex: 1 1 45% !important; font-size: 0.6rem !important; }
+    .os-header { 
+        padding: 10px !important; 
+    }
+
+    .command-bar { 
+        display: grid !important;
+        grid-template-columns: 1fr 1fr; /* 2 Columnas iguales */
+        gap: 8px !important;
+        padding: 10px !important;
+        width: 100% !important;
+        flex-wrap: wrap !important;
+    }
+
+    .btn { 
+        flex: 1 1 45% !important; 
+        font-size: 0.6rem !important;
+     }
 }
 
 
@@ -605,6 +619,7 @@
     </header>
 
     <nav class="command-bar">
+        <button class="btn" onclick="toggleFullScreen()">[ ] FULLSCREEN</button>
         <button class="btn" onclick="goToDashboard()">DASHBOARD</button>
         <button class="btn" onclick="openModal('modal-explorer')">UNITS_DATABASE</button>
         <button class="btn" onclick="openModal('modal-status')">SYSTEM_STATUS</button>
@@ -919,6 +934,20 @@ const noteFiles = [
     sequencer.onended = function() {
         setTimeout(playNextNote, delayBetweenNotes);
     };
+
+    function toggleFullScreen() {
+    var doc = window.document;
+    var docEl = doc.documentElement;
+
+    var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+    var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+    if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+        requestFullScreen.call(docEl);
+    } else {
+        cancelFullScreen.call(doc);
+    }
+}
 </script>
 
 </body>
