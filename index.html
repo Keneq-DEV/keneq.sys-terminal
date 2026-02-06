@@ -8,605 +8,8 @@
 
 </head>
 
-<style>   
-
-        /* --- PALETA DE COLORES OFICIAL --- */
-        :root {
-            --bg-negro:    #0a0c0a; 
-            --verde-base:  #9ec29e; 
-            --verde-high:  #cceecc; 
-            --borde-dark:  #1a201a; 
-            --rojo-error:  #ff4444; 
-            --gris-dim:    #6e7a6e; 
-            --glow: 0 0 12px rgba(158, 194, 158, 0.3);
-        }
-
-        /* --- RESET Y BASE --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: crosshair;
-        }
-
-        body {
-            background-color: var(--bg-negro);
-            color: var(--verde-base);
-            font-family: 'Share Tech Mono', monospace;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* --- CAPAS DE FONDO --- */
-        #profile-gif-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -2;
-            opacity: 0.3;
-            filter: grayscale(1) brightness(0.4);
-
-            /* VALORES AJUSTADOS: Subimos opacidad y brillo */
-            opacity: 0.6 !important; 
-            filter: brightness(0.8) grayscale(0.6) contrast(1.2) !important;
-        }
-
-        .crt-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 10000;
-        }
-
-        /* --- HEADER --- */
-        header {
-            padding: 20px 30px;
-            border-bottom: 1px solid var(--borde-dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 12, 10, 0.9);
-            z-index: 10;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            color: var(--verde-high);
-            text-shadow: var(--glow);
-            letter-spacing: 2px;
-        }
-
-        /* --- COMANDOS --- */
-        .command-bar {
-            display: flex;
-            gap: 15px;
-            padding: 20px;
-            justify-content: center;
-            z-index: 10;
-        }
-
-        .btn {
-            background: transparent;
-            border: 1px solid var(--verde-base);
-            color: var(--verde-base);
-            padding: 10px 25px;
-            font-family: inherit;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: rgba(158, 194, 158, 0.1);
-            color: var(--verde-high);
-            box-shadow: var(--glow);
-        }
-
-        /* --- DASHBOARD (REPLICADO EXACTO) --- */
-        .main-viewport {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .dashboard-container {
-            background: rgba(10, 12, 10, 0.9);
-            border: 1px solid var(--verde-base);
-            padding: 35px 45px;
-            max-width: 780px;
-            width: 100%;
-        }
-
-        .dashboard-container h1 {
-            font-size: 1.8rem;
-            color: var(--verde-high);
-            margin-bottom: 10px;
-        }
-
-        .dashboard-container .subtitle {
-            font-size: 1.1rem;
-            color: var(--gris-dim);
-            border-left: 2px solid var(--verde-base);
-            padding-left: 15px;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        .dashboard-item {
-            border: 1px solid var(--borde-dark);
-            margin-bottom: 10px;
-            background: rgba(0,0,0,0.2);
-        }
-
-        .dashboard-item summary {
-            list-style: none;
-            padding: 12px 15px;
-            cursor: pointer;
-            color: var(--verde-high);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dashboard-item summary::-webkit-details-marker { display: none; }
-
-        .dashboard-item summary::before {
-            content: "▶";
-            font-size: 0.7rem;
-            transition: transform 0.2s;
-        }
-
-        .dashboard-item[open] summary::before { transform: rotate(90deg); }
-
-        .dashboard-item .inner-content {
-            padding: 15px 20px;
-            border-top: 1px solid var(--borde-dark);
-            color: var(--gris-dim);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* --- ESTRUCTURA VENTANA WINDOWS 11 --- */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 9000;
-            justify-content: center; align-items: center;
-        }
-
-        .modal-content {
-            background: var(--bg-negro);
-            border: 1px solid var(--verde-base);
-            width: 95%;
-            max-width: 1100px;
-            height: 85vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Barra Lateral y Cuerpo */
-        .win-body { 
-            display: flex; 
-            flex: 1; 
-            overflow: hidden; 
-        }
-
-        .win-sidebar {
-            width: 220px;
-            border-right: 1px solid var(--borde-dark);
-            background: rgba(158, 194, 158, 0.02);
-            padding: 20px;
-        }
-
-        .side-label { 
-            font-size: 0.7rem; 
-            color: var(--gris-dim); 
-            margin-bottom: 10px; 
-            text-transform: uppercase; 
-        }
-
-        .side-item {
-            padding: 8px 12px;
-            margin-bottom: 5px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            transition: 0.2s;
-        }
-
-        .side-item:hover { 
-            background: rgba(158, 194, 158, 0.1); 
-            color: var(--verde-high); 
-        }
-
-        .win-viewport { 
-            flex: 1; 
-            padding: 30px; 
-            overflow-y: auto; 
-        }
-
-        .close-btn { 
-            position: absolute; 
-            top: 10px; 
-            right: 
-            20px; 
-            font-size: 2rem; 
-            color: var(--rojo-error); 
-            text-decoration: none; 
-            z-index: 100; 
-        }
-
-        /* --- ICONO CARPETA WIN11 REAL --- */
-        .explorer-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
-            gap: 30px; 
-        }
-
-        .folder-wrapper {
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 10px; 
-            cursor: pointer; 
-            transition: 0.2s;
-        }
-
-        .win11-folder {
-            position: relative;
-            width: 65px;
-            height: 50px;
-        }
-
-        .folder-back {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--verde-base);
-            clip-path: polygon(0% 15%, 35% 15%, 42% 0%, 95% 0%, 100% 15%, 100% 100%, 0% 100%);
-            border-radius: 3px; opacity: 0.7;
-        }
-
-        .folder-front {
-            position: absolute; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 82%;
-            background: linear-gradient(135deg, var(--verde-high) 0%, var(--verde-base) 100%);
-            border-radius: 2px 5px 3px 3px;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.4);
-            border-top: 1px solid rgba(255,255,255,0.3);
-            transition: transform 0.3s;
-            transform-origin: bottom;
-        }
-
-        .folder-wrapper:hover .folder-front { 
-            transform: rotateX(-15deg) 
-            skewX(-5deg); 
-        }
-
-        .folder-name { 
-            font-size: 0.75rem; 
-            color: var(--verde-high); 
-            font-weight: bold; 
-            text-align: center; 
-        }
-
-        /* --- TARJETAS SCAN (INTACTO) --- */
-        .unit-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, 
-            minmax(280px, 1fr)); 
-            gap: 20px; 
-        }
-
-        .unit-card-wrapper {
-            height: 320px; 
-            position: relative; 
-            border: 1px solid var(--verde-base);
-            background: #050705; 
-            overflow: hidden; 
-            border-radius: 12px 0 12px 0; 
-            transition: 0.3s;
-        }
-
-        .unit-image-link {
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            z-index: 1; 
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .unit-card-wrapper:hover .unit-image-link { 
-            height: 150px; 
-        }
-
-        .unit-image-link img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            filter: brightness(0.4) grayscale(0.5); 
-            transition: 0.5s; 
-        }
-
-        .unit-card-wrapper:hover img { 
-            filter: brightness(1) grayscale(0); 
-        }
-
-        .unit-card-wrapper::before {
-            content: ":: SCAN DATA ::"; 
-            position: absolute;
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%);
-            z-index: 5; 
-            color: #fff; 
-            font-size: 0.8rem; 
-            pointer-events: none; 
-            transition: 0.3s;
-        }
-
-        .unit-card-wrapper:hover::before { 
-            opacity: 0; 
-        }
-
-        .unit-info { 
-            position: absolute; 
-            top: 160px; 
-            left: 0; 
-            width: 100%; 
-            padding: 15px; 
-            opacity: 0; 
-            transition: 0.4s ease 0.2s; 
-            z-index: 2; 
-        }
-        .unit-card-wrapper:hover .unit-info { 
-            opacity: 1; 
-        }
-
-        .unit-name { 
-            color: var(--verde-high); 
-            font-size: 1.2rem; 
-            margin-bottom: 5px; 
-            display: block; 
-        }
-
-        .unit-desc { 
-            font-size: 0.85rem; 
-            color: var(--gris-dim); 
-            line-height: 1.3; 
-        }
-
-        /* --- STATUS HUD --- */
-        .status-row { display: flex; 
-            justify-content: space-between; 
-            padding: 10px 0; 
-            border-bottom: 1px solid var(--borde-dark); 
-        }
-        
-        .status-online { 
-            color: #00ff00; 
-            text-shadow: 0 0 5px #00ff00; 
-        }
-
-        /* --- SCROLLBAR --- */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-negro); }
-        ::-webkit-scrollbar-thumb { background: var(--verde-base); }
-
-        .win-view-selector {
-        margin-left: 20px;
-        display: flex;
-        gap: 10px;
-        border-left: 1px solid var(--borde-dark);
-        padding-left: 20px;
-        }
-
-        .view-btn {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border: 1px solid var(--gris-dim);
-            color: var(--gris-dim);
-            cursor: pointer;
-            background: transparent;
-        }
-
-        .view-btn:hover, .view-btn.active {
-            color: var(--verde-high);
-            border-color: var(--verde-base);
-            background: rgba(158, 194, 158, 0.1);
-        }
-
-        /* --- MODOS DE TAMAÑO PARA EL GRID --- */
-
-        /* PEQUEÑO (S) */
-        .explorer-grid.size-s { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 15px; }
-        .explorer-grid.size-s .win11-folder { width: 45px; height: 35px; }
-        .explorer-grid.size-s .folder-name { font-size: 0.65rem; }
-
-        .unit-grid.size-s { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
-        .unit-grid.size-s .unit-card-wrapper { height: 200px; }
-        .unit-grid.size-s .unit-card-wrapper:hover .unit-image-link { height: 80px; }
-        .unit-grid.size-s .unit-info { top: 90px; padding: 8px; }
-        .unit-grid.size-s .unit-name { font-size: 0.9rem; }
-        .unit-grid.size-s .unit-desc { font-size: 1.2rem;} 
-
-        /* MEDIANO (M) */
-        .explorer-grid.size-m { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
-
-        /* GRANDE (L) */
-        .unit-grid.size-l { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
-        .unit-grid.size-l .unit-card-wrapper { height: 400px; }
-
-        .unit-grid {
-        display: grid !important;
-        width: 100% !important; /* Obliga al grid a usar todo el ancho de la ventana */
-        gap: 20px;
-        padding: 10px;
-        align-content: start;
-    }
-
-    /* Asegura que el visor de la derecha crezca y no se bloquee */
-        .win-main-view, .win-viewport {
-        flex: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-    }
-
-@media (max-width: 768px) {
-    /* 1. Bloqueamos el movimiento de la pantalla */
-    body { overflow: hidden !important; position: fixed; width: 100%; }
-
-    /* 2. Ventana a pantalla completa total */
-    .modal-content {
-        width: 100vw !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        top: 0 !important;
-        left: 0 !important;
-        padding: 0 !important;
-        display: flex !important;
-        flex-direction: column !important; /* Todo hacia abajo */
-        border: none !important;
-        overflow-y: auto !important; /* El scroll es de la ventana completa */
-    }
-
-    /* 3. Botón cerrar: arriba a la derecha, fijo */
-    .close-btn {
-        position: absolute !important;
-        top: 15px !important;
-        right: 15px !important;
-        z-index: 10001 !important;
-        background: var(--bg-negro);
-        border: 1px solid var(--rojo-error);
-        padding: 5px 15px;
-    }
-
-    /* 4. Dashboard e Inicio (Ajuste para que no sea un tubo estrecho) */
-    .dashboard-container {
-        padding: 25px !important;
-        margin: 10px !important;
-        width: calc(100% - 20px) !important;
-        max-width: none !important;
-    }
-    .dashboard-container h1 { font-size: 1.6rem !important; }
-    .dashboard-item summary { font-size: 0.8rem !important; }
-
-    /* 5. Estructura del explorador: Sidebar -> Toolbar -> Contenido */
-    .win-body {
-        display: flex !important;
-        flex-direction: row !important; 
-        overflow: hidden !important;
-    }
-
-    /* 6. SIDEBAR (Shortcuts): Lista vertical simple arriba */
-    .win-sidebar {
-        width: 60px !important; /* Muy delgada a la izquierda */
-        min-width: 60px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        padding: 60px 5px 10px 5px !important; /* Espacio para la X */
-        border-right: 1px solid var(--borde-dark) !important;
-        border-bottom: none !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-    }
-
-    .side-label { 
-        display: block !important; 
-        font-size: 0.6rem !important;
-        margin: 10px 0 5px 0 !important;
-    }
-
-    .side-item {
-        justify-content: center !important;
-        padding: 12px 0 !important;
-        font-size: 1.2rem !important; /* Iconos más grandes para picar con el dedo */
-        border: none !important;
-        background: transparent !important;
-    }
-
-    /* 7. Barra de herramientas (VIEW S/M/L) */
-    .win-toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: var(--bg-negro) !important;
-        padding: 10px !important;
-        justify-content: center !important;
-        border-bottom: 1px solid var(--verde-base) !important;
-    }
-
-    /* 8. Área de visualización (Carpetas y Bots) */
-    .win-viewport {
-        padding: 20px 15px !important;
-        flex: none !important;
-    }
-
-    /* Carpetas: 2 por fila para que se lean bien */
-    .explorer-grid {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 15px !important;
-    }
-
-    /* Bots: 1 por fila para que el efecto SCAN funcione */
-    .unit-grid {
-        grid-template-columns: 1fr !important;
-        gap: 25px !important;
-    }
-
-    .unit-card-wrapper {
-        height: 300px !important;
-    }
-
-    /* Ajuste de ruta */
-    .path-bar {
-        font-size: 0.6rem !important;
-        word-break: break-all;
-    }
-
-    /* Header superior del sitio */
-    .os-header { 
-        padding: 10px !important; 
-    }
-
-    .command-bar { 
-        display: grid !important;
-        grid-template-columns: 1fr 1fr; /* 2 Columnas iguales */
-        gap: 8px !important;
-        padding: 10px !important;
-        width: 100% !important;
-        flex-wrap: wrap !important;
-    }
-
-    .btn { 
-        flex: 1 1 45% !important; 
-        font-size: 0.6rem !important;
-     }
-}
-
-
-
-        
-</style>
+<link rel="stylesheet" href="TERMINAL.Css/TERMINAL-CSS.css">
+ <script src="TERMINAL.Js/TERMINAL-JS.js" defer></script>
 
 <body>
 
@@ -644,7 +47,7 @@
                 <div class="inner-content">
                     • CONTENT: Dark Narrative / NSFW Focus<br>
                     • PROTOCOL: Multi-paragraph Literacy<br>
-                    • VERSIONS: 0001.
+                    • VERSIONS: 1000.
                 </div>
             </details>
         </div>
@@ -659,8 +62,26 @@
                 
             <!-- BARRA LATERAL (Sidebar) -->
             <aside class="win-sidebar">
-                <div class="side-label">Quick Access</div>
-                <div class="side-item" onclick="openFolderContent('view-root')">🏠 Home_Root</div>
+                <details class="side-group" open>
+                <summary>Quick Access</summary>
+                <div class="side-item" onclick="openFolderContent('view-root')">⭐ Home</div>
+                <div class="side-item" onclick="openFolderContent('view-request')">📂 REQUESTS_DATA</div>
+            </details>
+
+            <details class="side-group" open>
+                <summary>Unit Categories</summary>
+                <div class="side-item" onclick="openFolderContent('view-scp')">📁 SCP_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-uncat')">📁 UNCAT_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-dogknights')">📁 DOGKNIGHTS_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-tdg')">📁 DRACONIC_GRIMORE_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-tsc')">📁 STOCKHOLM_COMPENDIUM_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-httyd')">📁 HTTYD_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-tcs')">📁 CHROME_SUTRA_DATA</div>
+                <div class="side-item" onclick="openFolderContent('view-tss')">📁 STYGIAN_SYNDICATE_DATA</div>
+                
+            </details>
+
+
                 <div class="win-view-selector">
                 <span style="font-size: 0.6rem; color: var(--gris-dim); align-self: center;">VIEW:</span>
                 <button class="view-btn" onclick="setViewSize('size-s')">S</button>
@@ -669,15 +90,7 @@
             </div>
                 
                 
-              
-                <div class="side-item" onclick="openFolderContent('view-scp')">📁 SCP_Data</div>
-                <div class="side-item" onclick="openFolderContent('view-uncat')">📁 UNCAT_DATA</div>
-                <div class="side-item" onclick="openFolderContent('view-dogknights')">📁 DOGKNIGHTS_DATA</div>
-                <div class="side-item" onclick="openFolderContent('view-request')">📁 REQUESTS_DATA</div>
-                
-                
-
-
+    
                 <hr style="border:0; border-top:1px solid var(--borde-dark); margin:15px 0;">
                 <div class="side-label">This PC</div>
                 
@@ -693,11 +106,13 @@
             <section class="win-main-view">
                 <div class="path-bar" id="current-path">This PC > Local Disk (C:) > Units</div>
 
+                <!-- 2. VISTA DE UNIDADES (La pantalla con las unidades dentro de una carpeta) -->
+                <div id="unit-viewer" class="view-content" style="display: none;"><div class="unit-grid size-s"></div></div>
+
                 <!-- 1. VISTA DE ICONOS (La pantalla con las carpetas Win11) -->
                 <div id="view-root" class="view-content" style="display: block;">
                     <div class="explorer-grid size-m">
-                        
-                        
+                    
                         <div class="folder-wrapper" onclick="openFolderContent('view-scp')">
                             <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
                             <span class="folder-name">SCP_DATA</span>
@@ -717,41 +132,31 @@
                             <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
                             <span class="folder-name">UNCAT_DATA</span>
                         </div>
+
+                        <div class="folder-wrapper" onclick="openFolderContent('view-tdg')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">DRACONIC_GRIMORE_DATA</span>
+                        </div>
+
+                        <div class="folder-wrapper" onclick="openFolderContent('view-tsc')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">CHROME_SUTRA_DATA</span>
+                        </div>
+
+                        <div class="folder-wrapper" onclick="openFolderContent('view-httyd')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">HTTYD_DATA</span>
+                        </div>
+
+                        <div class="folder-wrapper" onclick="openFolderContent('view-tss')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">STYGIAN_SYNDICATE_DATA</span>
+                            
+                        </div>
                         <!-- FIN COPIA -->
 
                     </div>
                 </div>
-
-                <!-- 2. VISTA DE BOTS: CARPETA SCP -->
-                <div id="view-scp" class="view-content" style="display: none;">
-                    <div class="unit-grid size-s">
-                        <!-- COPIA ESTO PARA CADA BOT -->
-                        <div class="unit-card-wrapper">
-                            <a href="https://janitorai.com/characters/d2d9df94-cbc3-4b64-8299-09dd5208b44f_character-karla" target="_blank" class="unit-image-link">
-                                <img src="https://ella.janitorai.com/media-approved/dhbBzAKR-IL82gkyTT6uS.webp">
-                            </a>
-                            <div class="unit-info">
-                                <span class="unit-name">KARLA</span>
-                                <p class="unit-desc">...</p>
-                            </div>
-                        </div>
-                        <!-- FIN COPIA BOT -->
-
-
-
-
-                    </div>
-                </div>
-
-                <!-- 3. VISTA DE BOTS: CARPETA FANDOM -->
-                <div id="view-fandom" class="view-content" style="display: none;">
-                    <div class="unit-grid size-s">
-                        <!-- Aquí poner bots -->
-                    </div>
-                </div>
-
-                <!-- 4. OTRA CARPETA, PEGAR OTRO <div id="view-loquesea" class="view-content"> AQUÍ -->
-
             </section>
         </div>
     </div>
@@ -776,179 +181,26 @@
 <audio id="snd-ambience" loop src="TERMINAL.Audio/Ambience_terminal_1.wav"></audio>
 <audio id="terminal-sequencer" src=""></audio>
 <audio id="snd-click" src="TERMINAL.Audio/click.wav"></audio>
+<audio id="snd-error" src="TERMINAL.Audio/error.wav"></audio>
 <audio id="snd-close" src="TERMINAL.Audio/close.wav"></audio>
 
-<script>
-     function openModal(id) { 
-        document.getElementById(id).style.display = 'flex'; 
-    }
-    
-    function closeModal(id) { 
-        document.getElementById(id).style.display = 'none'; 
-    }
-
-   
-    function openFolderContent(folderId) {
-       
-        const allViews = document.querySelectorAll('.view-content');
-        allViews.forEach(view => {
-            view.style.display = 'none';
-        });
-
-        
-        const targetFolder = document.getElementById(folderId);
-        if (targetFolder) {
-            targetFolder.style.display = 'block';
-        } else {
-            console.error("Error: No se encontró la carpeta con ID: " + folderId);
-        }
-    }
-
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.toLocaleTimeString('es-ES', {hour12: false});
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    const clickSnd = document.getElementById('snd-click');
-    const closeSnd = document.getElementById('snd-close');
-    const ambienceSnd = document.getElementById('snd-ambience');
-    
-
-    
-    window.onload = function() {
-        ambienceSnd.volume = 0.3; 
-        ambienceSnd.play().catch(e => console.log("Autoplay bloqueado por el navegador"));
-        clickSnd.volume = 0.3;  
-        closeSnd.volume = 0.3;
-    };
-
-    
-    function goToDashboard() {
-        clickSnd.currentTime = 0;
-        clickSnd.play();
-        
-       
-        const allModals = document.querySelectorAll('.modal');
-        allModals.forEach(m => {
-            m.style.display = 'none';
-        });
-    }
-
-    function openModal(id) {
-        clickSnd.currentTime = 0; 
-        clickSnd.play();
-        document.getElementById(id).style.display = 'flex';
-    }
-
-    function closeModal(id) {
-        closeSnd.currentTime = 0;
-        closeSnd.play();
-        document.getElementById(id).style.display = 'none';
-    }
-
-    function openFolderContent(folderId) {
-        clickSnd.currentTime = 0;
-        clickSnd.play();
-
-        
-        const allViews = document.querySelectorAll('.view-content');
-        allViews.forEach(view => { view.style.display = 'none'; });
-
-        const target = document.getElementById(folderId);
-        if (target) {
-            target.style.display = 'block';
-            
-            const pathBar = document.getElementById('current-path');
-            if(pathBar) {
-                if(folderId === 'main-explorer-root') pathBar.innerText = "This PC > Local Disk (C:) > Units";
-                if(folderId === 'view-scp-data') pathBar.innerText = "This PC > Local Disk (C:) > Units > SCP_DATA";
-                if(folderId === 'view-fandom-data') pathBar.innerText = "This PC > Local Disk (C:) > Units > FANDOM_CORE";
-            }
-        }
-    }
-
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.toLocaleTimeString('es-ES', {hour12: false});
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    function setViewSize(sizeClass) {
-    if(clickSnd) { clickSnd.currentTime = 0; clickSnd.play(); }
-
-    
-    document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
-    window.event.target.classList.add('active');
-
-    const allGrids = document.querySelectorAll('.explorer-grid, .unit-grid');
-    allGrids.forEach(grid => {
-        grid.classList.remove('size-s', 'size-m', 'size-l');
-        grid.classList.add(sizeClass);
-    });
-}
-
-const noteFiles = [
-        "TERMINAL.Audio/Ambience_terminal_rnd_1.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_2.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_3.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_4.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_5.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_6.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_7.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_8.wav",
-        "TERMINAL.Audio/Ambience_terminal_rnd_9.wav"
-    ];
-
-    let currentNoteIndex = 0;
-    const sequencer = document.getElementById('terminal-sequencer');
-    
-    
-    const delayBetweenNotes = 3000; 
-
-    function playNextNote() {
-        
-        sequencer.src = noteFiles[currentNoteIndex];
-        sequencer.volume = 1; 
-        
-        sequencer.play().catch(e => console.log("Esperando interacción para iniciar secuencia..."));
-
-        
-        currentNoteIndex++;
-
-        
-        if (currentNoteIndex >= noteFiles.length) {
-            currentNoteIndex = 0;
-        }
-    }
-
-    
-    window.addEventListener('load', () => {
-       
-        setTimeout(playNextNote, 1000);
-    });
-
-    
-    sequencer.onended = function() {
-        setTimeout(playNextNote, delayBetweenNotes);
-    };
-
-    function toggleFullScreen() {
-    var doc = window.document;
-    var docEl = doc.documentElement;
-
-    var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-    var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-    if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-        requestFullScreen.call(docEl);
-    } else {
-        cancelFullScreen.call(doc);
-    }
-}
-</script>
+<div id="modal-error" class="modal">
+    <div class="modal-content">
+        <a href="javascript:closeModal('modal-error')" class="close-btn">×</a>
+        <h2>[!] SECURITY_BREACH [!]</h2>
+        <div style="padding: 20px;">
+            <p style="color: var(--rojo-error); font-size: 1.2rem; margin-bottom: 15px;">CRITICAL_ERROR: INSUFFICIENT_CLEARANCE</p>
+            <p style="color: var(--gris-dim); line-height: 1.5;">
+                Your current operator level is too low to decrypt this unit's data cores. 
+                <br><br>
+                <span style="color: #fff;">REQUIRED_LEVEL: OVERSEER (Lvl 5)</span>
+            </p>
+            <div style="margin-top: 25px; border: 1px dashed var(--rojo-error); padding: 10px; font-size: 0.8rem;">
+                UNAUTHORIZED ACCESS ATTEMPT LOGGED.
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

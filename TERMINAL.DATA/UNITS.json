@@ -1,0 +1,190 @@
+{
+  "view-tss": [
+    {
+      "id": "APOLLYON",
+      "link": "https://janitorai.com/characters/4a1b7ff6-9211-4a97-b96d-8e3be9893fa4_character-apollyon",
+      "img": "https://ella.janitorai.com/bot-avatars/ux6WJgfPIT2fmSAETSJLA.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "MAKO",
+      "link": "https://janitorai.com/characters/264865de-a814-4f79-a561-fc48c599d675_character-mako",
+      "img": "https://ella.janitorai.com/bot-avatars/ZdiGj8Dyjwk77qHOeOjue.webp?width=1200",
+      "corrupted": true
+    },
+
+    {
+      "id": "NEPHTHYS",
+      "link": "https://janitorai.com/characters/7f6bec6b-9b19-4dbc-837f-131a156b7a96_character-nephthys",
+      "img": "https://ella.janitorai.com/bot-avatars/JgUqiuhwizV8ZnPUOwoA3.webp?width=1200",
+      "corrupted": true
+    },
+
+    {
+      "id": "NEMESIS",
+      "link": "https://janitorai.com/characters/698ad2f3-ec7c-4811-a39c-297818826758_character-nemesis",
+      "img": "https://ella.janitorai.com/bot-avatars/BxhT5dBEA5yTy2jRcgBB_.webp?width=1200",
+      "corrupted": true
+    },
+
+    {
+       "id": "HUCKLE-BERRY", 
+       "link": "https://janitorai.com/characters/9165e150-03ad-4c94-a65a-26950045c9ca_character-huckle-berry",
+       "img": "https://ella.janitorai.com/bot-avatars/vCdnNb9dciFY_i8zvEDoE.webp?width=1200",
+       "corrupted": true
+    }
+
+  ],
+  "view-scp": [
+    {
+      "id": "KARLA",
+      "link": "https://janitorai.com/characters/d2d9df94-cbc3-4b64-8299-09dd5208b44f_character-karla",
+      "img": "https://ella.janitorai.com/bot-avatars/kMLN4bqmlthzd0aTeuHnu.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "ALBA",
+      "link": "https://janitorai.com/characters/17a5beaa-2fc3-4c3e-8bb7-2ac302ce0ae0_character-alba",
+      "img": "https://ella.janitorai.com/bot-avatars/9msVbHNq2KszepXTkHhUe.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "VESPER",
+      "link": "https://janitorai.com/characters/b765d3de-e846-4e08-b737-edb434d017a8_character-vesper",
+      "img": "https://ella.janitorai.com/bot-avatars/S0Xdkzp0sG4EFYSoPFbdI.webp?width=1200",
+      "corrupted": false
+    }
+
+  ],
+  "view-httyd": [
+    {
+      "id": "NYX",
+      "link": "https://janitorai.com/characters/42706c7a-a55f-4cba-9b06-4fcc67be5ad3_character-nyx",
+      "img": "https://ella.janitorai.com/bot-avatars/xq3Lzu7AzclcjOpi1_bT7.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "NUBLESS",
+      "link": "https://janitorai.com/characters/3fa941b0-d15d-493b-834c-8e954cdfd25c_character-nubless",
+      "img": "https://ella.janitorai.com/bot-avatars/C1FGz5JYr2lHy9m5hUJzB.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "AURUM",
+      "link": "https://janitorai.com/characters/f6ad8b45-7467-4df9-aab5-220eeaf9e956_character-aurum",
+      "img": "https://ella.janitorai.com/bot-avatars/pb7b-QV7bwvE96exm-r86.webp?width=1200",
+      "corrupted": true
+    }
+  ],
+
+  "view-dogknights": [
+    {
+      "id": "RORY",
+      "link": "https://janitorai.com/characters/dd5d6cf9-8dc2-4a71-8042-d7c8977f088d_character-rory",
+      "img": "https://ella.janitorai.com/bot-avatars/COSEydcTvYvXnEyzF838I.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "JEANE",
+      "link": "https://janitorai.com/characters/408c3e5c-2dda-498b-bd0c-81aaa6beb8eb_character-jeane",
+      "img": "https://ella.janitorai.com/bot-avatars/0XBT1-co6L_IKFfbwCISD.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "MACI",
+      "link": "hhttps://janitorai.com/characters/52f4dbed-6ffb-4896-8de7-5141c272fedb_character-maci",
+      "img": "https://ella.janitorai.com/bot-avatars/zVkFMGmk9yNgjEdF0b88v.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "NIX",
+      "link": "https://janitorai.com/characters/2781f63b-e200-42ce-8179-3b0d10d67f57_character-nix",
+      "img": "https://ella.janitorai.com/bot-avatars/_zbjjWZQVNyAXfYe_vAJG.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "ORINETTE",
+      "link": "https://janitorai.com/characters/53bda1e8-f5bc-4396-aa9f-9be1dc3a8b9d_character-orinette",
+      "img": "https://ella.janitorai.com/bot-avatars/OyCOhLyVrGNuJy4Ojuedk.webp?width=1200",
+      "corrupted": false
+    },
+
+    {
+      "id": "CELIA",
+      "link": "https://janitorai.com/characters/013b955e-56b9-42ca-a89c-2de2722af480_character-celia",
+      "img": "https://ella.janitorai.com/bot-avatars/Y4nsVZ2YStI5CIr3KL5Jj.webp?width=1200",
+      "corrupted": false
+    }
+  ],
+  
+  "view-tcs": [
+        {
+        "id": "LUCY",
+        "link": "https://janitorai.com/characters/7c406427-d16e-44da-a35a-c4b4b4d2301e_character-lucy",
+        "img": "https://ella.janitorai.com/bot-avatars/lajuazGoau_cPbA_plEj4.webp?width=1200",
+        "corrupted": false
+        }
+    ],
+
+    "view-tdg": [
+        {
+        "id": "GRISIELDA",
+        "link": "https://janitorai.com/characters/02040352-5fd4-4522-af52-4c15e14a9eed_character-griselda",
+        "img": "https://ella.janitorai.com/bot-avatars/J6WOEn9dKS2hpq2b-PCSu.webp?width=400",
+        "corrupted": false
+        },
+        {
+        "id": "SABLE",
+        "link": "https://janitorai.com/characters/d2766231-7af7-4266-a947-5de4e997f1f4_character-sable",
+        "img": "https://ella.janitorai.com/bot-avatars/33YvZWFik_HjBneY0CeQu.webp?width=400",
+        "corrupted": false
+        },
+        {
+        "id": "EMBERLY",
+        "link": "https://janitorai.com/characters/be8f6590-d696-41bf-a51b-6ceace2abe9f_character-emberly",
+        "img": "https://ella.janitorai.com/bot-avatars/zADZWHpTj91NI0OBhCKoI.webp?width=400",
+        "corrupted": false
+        },
+        {
+        "id": "AMETHYST",
+        "link": "https://janitorai.com/characters/2bcc32d7-f454-4a30-974c-239c50f3507d_character-amethyst",
+        "img": "https://ella.janitorai.com/bot-avatars/7qP_JODHE4gOxVQqdcYgW.webp?width=400",
+        "corrupted": false
+        },
+        {
+        "id": "LYRA",
+        "link": "https://janitorai.com/characters/142ac22e-f030-48bf-8d56-b172f6197c2b_character-lyra",
+        "img": "https://ella.janitorai.com/bot-avatars/xqIOMRD66Un2xoIQ6HxlY.webp?width=400",
+        "corrupted": false
+        },
+        {
+        "id": "RIVET",
+        "link": "https://janitorai.com/characters/eb6eee4c-8527-4954-9185-410358fc454b_character-rivet",
+        "img": "https://ella.janitorai.com/bot-avatars/1J5Rn-IezKSOvBHtMecRy.webp?width=400",
+        "corrupted": false
+        },
+        {
+        "id": "IGNIS",
+        "link": "https://janitorai.com/characters/8d776fc3-b0c3-4edf-ae45-67883e4d33c1_character-ignis",
+        "img": "https://ella.janitorai.com/bot-avatars/UniJQj8hBBM9JD0fTTLbB.webp?width=400",
+        "corrupted": false
+        },
+        {
+        "id": "ASTRIA",
+        "link": "https://janitorai.com/characters/1f017311-cc1a-41bf-8334-c8e6d19463a2_character-astria",
+        "img": "https://ella.janitorai.com/bot-avatars/AzXkpnLzaBEvCBfmwGQgo.webp?width=400",
+        "corrupted": false
+        }
+
+    ]
+
+}
