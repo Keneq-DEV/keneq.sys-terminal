@@ -8,6 +8,8 @@
             --rojo-error:  #ff4444; 
             --gris-dim:    #6e7a6e; 
             --glow: 0 0 12px rgba(158, 194, 158, 0.3);
+            --solid-black: #000000;
+        
         }
 
         /* --- RESET Y BASE --- */
@@ -64,8 +66,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 12, 10, 0.9);
-            z-index: 10;
+            background: rgba(10, 12, 10, 1);
+            z-index: 100 !important;
         }
 
         .logo {
@@ -172,7 +174,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8);
-            z-index: 9000;
+            z-index: 500;
             justify-content: center; align-items: center;
         }
 
@@ -189,17 +191,31 @@
         }
 
         /* Barra Lateral y Cuerpo */
-        .win-body { 
-            display: flex; 
-            flex: 1; 
-            overflow: hidden; 
-        }
+        .win-body {
+            display: flex !important;
+            flex: 1 !important; 
+            /* Forzamos que el cuerpo no mida más que el modal */
+            height: calc(100% - 50px) !important; 
+            overflow: hidden !important; /* Bloqueamos el scroll aquí para que lo haga el hijo */
+        }   
 
         .win-sidebar {
             width: 220px;
-            border-right: 1px solid var(--borde-dark);
-            background: rgba(158, 194, 158, 0.02);
-            padding: 20px;
+            height: 100% !important; 
+            max-height: 100% !important; 
+            
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 20px 5px !important;
+            border-right: 1px solid var(--borde-dark) !important;
+            
+            /* Cambiamos 'overlay' por 'auto' que es más compatible */
+            overflow-y: auto !important; 
+            overflow-x: hidden !important;
+            
+            /* Evita que el contenido "empuje" la caja hacia abajo */
+            flex-shrink: 0 !important; 
+            background: rgba(0, 0, 0, 0.4);
         }
 
         .side-label { 
@@ -295,7 +311,7 @@
             text-align: center; 
         }
 
-        /* --- TARJETAS SCAN (INTACTO) --- */
+        /* --- TARJETAS SCAN  */
         .unit-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, 
@@ -546,36 +562,22 @@
     .dashboard-container h1 { font-size: 1.6rem !important; }
     .dashboard-item summary { font-size: 0.8rem !important; }
 
-    /* 5. Estructura del explorador: Sidebar -> Toolbar -> Contenido */
-    .win-body {
-        display: flex !important;
-        flex-direction: row !important; 
-        overflow: hidden !important;
+    
+
+    /* --- ESTILO DE LA BARRA DE SCROLL (Para que no tape los iconos) --- */
+    .win-sidebar::-webkit-scrollbar {
+        width: 5px !important; /* Muy delgada */
     }
 
-    /* 6. SIDEBAR (Shortcuts): Lista vertical simple arriba */
-    .win-sidebar {
-        width: 60px !important;
-        min-width: 60px !important;
-        max-width: 60px !important; /* Forzamos que no crezca nada */
-        
-        /* LA CLAVE: Altura absoluta basada en el contenedor padre */
-        height: 100% !important; 
-        display: flex !important;
-        flex-direction: column !important;
-        
-        padding: 20px 5px !important; /* Ajustado el padding superior */
-        border-right: 1px solid var(--borde-dark) !important;
-        font-size: 0.75rem !important;
-        
-        /* Scroll funcional */
-        overflow-y: overlay !important; /* 'overlay' hace que flote sobre el contenido */
-        overflow-x: hidden !important;
-        
-        background: rgba(0, 0, 0, 0.4);
-        flex-shrink: 0; /* Evita que la sidebar se colapse */
-        
+    .win-sidebar::-webkit-scrollbar-track {
+        background: transparent !important;
     }
+
+    .win-sidebar::-webkit-scrollbar-thumb {
+        background: var(--verde-base) !important;
+        border-radius: 0;
+    }
+
     .win-sidebar .side-item {
         display: flex;
         justify-content: center; /* Centra el icono */
@@ -585,6 +587,8 @@
         margin-bottom: 10px;
         font-size: 1.2rem; /* Tamaño de icono */
         position: relative;
+        
+        
     }
     .win-sidebar::-webkit-scrollbar {
         width: 2px !important;
@@ -607,6 +611,7 @@
         font-size: 1.2rem !important; /* Iconos más grandes para picar con el dedo */
         border: none !important;
         background: transparent !important;
+        
     }
 
     /* 7. Barra de herramientas (VIEW S/M/L) */
@@ -646,11 +651,6 @@
     .path-bar {
         font-size: 0.6rem !important;
         word-break: break-all;
-    }
-
-    /* Header superior del sitio */
-    .os-header { 
-        padding: 10px !important; 
     }
 
     .command-bar { 
@@ -798,6 +798,79 @@
     .unit-grid {
         padding-bottom: 80px !important;
     }
+
+    #modal-archives .modal-content {
+        flex-direction: column !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* 2. Ajustamos la Sidebar (Lista de nombres) */
+    .archive-sidebar {
+        width: 100% !important;
+        height: 30vh !important; /* Ocupa el 30% superior */
+        border-right: none !important;
+        border-bottom: 1px solid var(--verde-base);
+        flex-shrink: 0;
+    }
+
+    .archive-sidebar h3 {
+        padding: 10px !important;
+        font-size: 0.9rem;
+    }
+
+    .archive-item {
+        padding: 10px 15px !important;
+        font-size: 0.8rem;
+    }
+
+    /* 3. Ajustamos el Viewport (Donde sale la info del bot) */
+    .archive-viewport {
+        width: 100% !important;
+        height: 70vh !important;
+        overflow-y: auto;
+    }
+
+    /* 4. REORGANIZAMOS EL CONTENIDO INTERNO (Info + Imagen) */
+    /* El grid que era 1fr 300px ahora es una sola columna */
+    #dossier-content > div {
+        display: flex !important;
+        flex-direction: column-reverse !important; /* Imagen arriba, texto abajo */
+        gap: 20px !important;
+    }
+
+    /* 5. Ajuste de la Galería en móvil */
+    .gallery-container {
+        width: 100% !important;
+    }
+
+    .main-img-wrapper {
+        height: 250px !important; /* Imagen más pequeña para que no tape todo */
+    }
+
+    .thumbnail-grid {
+        grid-template-columns: repeat(4, 1fr) !important; /* Más miniaturas por fila */
+    }
+
+    /* 6. Ajuste de Textos */
+    #dos-name {
+        font-size: 1.8rem !important;
+    }
+
+    #dos-desc {
+        font-size: 0.85rem !important;
+        line-height: 1.4;
+    }
+
+    /* 7. BOTÓN CERRAR [X]: Lo movemos para que no tape nada */
+    #modal-archives .close-btn {
+        top: 5px !important;
+        right: 10px !important;
+        font-size: 1.5rem !important;
+        background: var(--bg-negro);
+        border: 1px solid var(--rojo-error);
+        padding: 2px 8px;
+    }
 }
 
     /* --- PROTOCOLO DE UNIDAD CORRUPTA --- */
@@ -902,3 +975,1058 @@
         animation: glitch-close 0.3s both !important; 
     }
      
+    /* --- ESTILOS DE ARCHIVOS CLASIFICADOS --- */
+    .archive-sidebar {
+        width: 250px;
+        border-right: 1px solid var(--verde-base);
+        background: rgba(0,0,0,0.3);
+        display: flex; flex-direction: column;
+    }
+
+    .archive-list-container {
+        overflow-y: auto; flex: 1;
+    }
+
+    .archive-item {
+        padding: 15px 20px;
+        cursor: pointer;
+        border-bottom: 1px solid var(--borde-dark);
+        color: var(--gris-dim);
+        transition: 0.2s;
+    }
+
+    .archive-item:hover, .archive-item.active {
+        background: rgba(158, 194, 158, 0.1);
+        color: var(--verde-high);
+        padding-left: 30px; /* Efecto de movimiento */
+    }
+
+    .archive-viewport { flex: 1; position: relative; }
+
+    /* --- GALERÍA --- */
+    .main-img-wrapper {
+        width: 100%;
+        height: 400px;
+        border: 1px solid var(--verde-base);
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+
+    #dos-main-img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: 0.3s;
+    }
+
+    .thumbnail-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;
+    }
+
+    .thumb-img {
+        width: 100%; height: 80px; object-fit: cover;
+        border: 1px solid var(--borde-dark);
+        cursor: pointer;
+        opacity: 0.6; transition: 0.2s;
+    }
+
+    .thumb-img:hover { opacity: 1; border-color: var(--verde-high); }
+
+    /* --- TAGS PERSONALIZADOS (SELECTORES) --- */
+    .tag-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 5px 5px 0;
+        border: 1px solid var(--verde-base);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    /* Iconos automáticos según el nombre del tag */
+    .tag-badge.tag-horror::before    { content: "💀 "; }
+    .tag-badge.tag-nsfw::before      { content: "🔞 "; color: var(--rojo-error); }
+    .tag-badge.tag-romance::before   { content: "♥ "; }
+    .tag-badge.tag-fantasy::before   { content: "🔮 "; }
+    .tag-badge.tag-scifi::before     { content: "💾 "; }
+    
+    /* Añade más según tus necesidades */
+
+    .artist-link {
+        color: var(--verde-base);
+        text-decoration: none;
+        border-bottom: 1px dashed var(--verde-base);
+        transition: 0.2s;
+    }
+    .artist-link:hover {
+        color: var(--bg-negro);
+        background-color: var(--verde-high);
+        border-bottom: 1px solid var(--verde-high);
+    }
+
+    /* =========================================
+   PALETAS DE COLORES ALTERNATIVAS (TEMAS)
+   ========================================= */
+
+    /* --- TEMA 1: JANITOR LEGACY (El Rosa Original) --- */
+    body.theme-legacy {
+        --bg-negro:    #0a0508; 
+        --verde-base:  #ff006c; /* Magenta Janitor */
+        --verde-high:  #fdd8d8; /* Rosa pálido */
+        --borde-dark:  #2d0a18; 
+        --rojo-error:  #ff3333; 
+        --gris-dim:    #b58498; 
+        --glow: 0 0 15px rgba(255, 0, 108, 0.5);
+    }
+
+    /* --- TEMA 2: CYBER BLUE (Azul Hielo / Tron) --- */
+    body.theme-unity {
+        --bg-negro:    #0e172a; /* El gris-negro oscuro del fondo de la imagen */
+        --verde-base:  #f7b000; /* El Oro exacto de las siglas "SCP" */
+        --verde-high:  #ffffff; /* El Blanco puro de "FOUNDATION" */
+        --borde-dark:  #2a2d31; /* El gris de las líneas divisorias */
+        --rojo-error:  #d32f2f; /* Rojo de brecha de contención */
+        --gris-dim:    #7c7c7c; /* El gris de "SECURE | CONTAIN | PROTECT" */
+    
+        /* Brillo dorado concentrado, no expansivo */
+        --glow: 0 0 8px rgba(247, 176, 0, 0.3); 
+    }
+
+    /* --- TEMA 3: RETRO AMBER (Deus / Naranja) --- */
+    body.theme-deus {
+    --bg-negro:    #000000;
+    --verde-base:  #ffb000; /* Ámbar Gold */
+    --verde-high:  #ffcc00; /* Brillo Ámbar */
+    --borde-dark:  #1a1100; /* Ámbar oscuro */
+    --rojo-error:  #ff4d00; 
+    --gris-dim:    #554400; /* Ámbar apagado */
+    --glow: 0 0 15px rgba(255, 176, 0, 0.4);
+    }
+
+    /* --- TEMA 4: ERROR MONOCHROME (Blanco y Negro) --- */
+    body.theme-ex {
+        --bg-negro:    #000000;
+        --verde-base:  #ffffff; /* Blanco puro */
+        --verde-high:  #ffffff;
+        --borde-dark:  #333333; /* Gris oscuro */
+        --rojo-error:  #666666; /* Gris medio para el error */
+        --gris-dim:    #999999; /* Gris claro */
+        --glow: 0 0 0px transparent; /* CERO BRILLO: Este tema es seco y crudo */
+    }
+
+    body.theme-bridges {
+    --bg-negro:    #0b1115; 
+    --verde-base:  #32e1ff; /* Azul Bridges */
+    --verde-high:  #ffffff; 
+    --borde-dark:  #1d2a33; 
+    --rojo-error:  #ff2c2c; 
+    --gris-dim:    #74838b; 
+    --amarillo-bridges: #ffcc00; /* Oro Quiral */
+    --glow: 0 0 10px rgba(50, 225, 255, 0.2);
+    }
+
+
+    .theme-switcher-btn {
+        background: transparent;
+        border: 1px dashed var(--verde-base);
+        color: var(--verde-base);
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 5px 10px;
+        transition: 0.3s;
+    }
+
+    .theme-switcher-btn:hover {
+        background: var(--verde-base);
+        color: var(--verde-high);
+        box-shadow: var(--glow);
+    }
+
+    /* --- CAPA DE TRANSICIÓN (GLITCH FULLSCREEN) --- */
+    .glitch-transition {
+        display: none; /* Oculto */
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: #000;
+        z-index: 999999; /* Por encima de TODO */
+        opacity: 0.9;
+    }
+    .glitch-transition.active {
+        display: block;
+        animation: full-glitch 0.5s steps(2) forwards;
+    }
+
+    @keyframes full-glitch {
+        0% { clip-path: inset(50% 0 30% 0); transform: translate(-5px, 5px); background-color: #222; }
+        20% { clip-path: inset(10% 0 60% 0); transform: translate(5px, -5px); background-color: var(--verde-base); }
+        40% { clip-path: inset(80% 0 5% 0); transform: translate(-5px, 0); background-color: #fff; }
+        60% { clip-path: inset(0 0 0 0); transform: translate(0, 5px); background-color: #000; }
+        80% { clip-path: inset(40% 0 20% 0); transform: translate(5px, 0); }
+        100% { clip-path: inset(0 0 0 0); transform: translate(0, 0); background-color: transparent; }
+    }
+
+        /* --- SELECTOR DE TEMA DESPLEGABLE --- */
+    .theme-selector-wrapper {
+        position: relative;
+        display: inline-block;
+        z-index: 10000 !important; 
+        isolation: isolate;
+    }
+
+    .theme-switcher-btn {
+        background: transparent;
+        border: 1px solid var(--verde-base);
+        color: var(--verde-base);
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 8px 15px;
+        min-width: 180px;
+        text-align: left;
+        transition: 0.3s;
+    }
+
+    .theme-switcher-btn:hover {
+        background: var(--bg-negro);
+        box-shadow: var(--glow);
+    }
+
+    /* El menú oculto */
+    .theme-dropdown {
+        display: none; /* Oculto por defecto */
+        position: absolute;
+        top: 100%; /* Justo debajo del botón */
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-negro) !important;
+        opacity: 1 !important; 
+        border: 1px solid var(--verde-base);
+        border-top: none;
+        z-index: 10000 !important; 
+        box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+        overflow: hidden;
+        filter: none !important;
+    }
+
+    /* Clase para activar la animación */
+    .theme-dropdown.show {
+        display: block;
+        animation: slide-down 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        pointer-events: all !important;
+    }
+
+    /* Opciones del menú */
+    .theme-option {
+        padding: 12px 15px;
+        cursor: pointer;
+        color: var(--gris-dim);
+        border-bottom: 1px solid rgba(158, 194, 158, 0.1);
+        transition: 0.2s;
+        font-size: 0.85rem;
+        z-index: 10001 !important;
+    }
+
+    .theme-option:hover {
+        background-color: var(--verde-base);
+        color: var(--solid-black);
+        padding-left: 25px; /* Efecto de movimiento al hover */
+    }
+
+    /* Animación de deslizamiento */
+    @keyframes slide-down {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================
+   PALETAS DE COLORES ALTERNATIVAS DE LOS (TEMAS)
+   ========================================= */
+
+    /* Estilos dependiendo del tema */
+    /* --- DETALLES DE INMERSIÓN LEGACY --- */
+    /* --- TEXTURA DE FONDO (SCANLINE DINÁMICA) --- */
+    body.theme-legacy .crt-overlay {
+        background: 
+            linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(255, 0, 108, 0.05) 50%),
+            linear-gradient(90deg, rgba(255, 0, 108, 0.02) 1px, transparent 1px);
+        background-size: 100% 4px, 40px 100%;
+    }
+
+    /* --- CONTENEDORES OCTOGONALES (LOOK CIBERPUNK 80s) --- */
+    body.theme-legacy .dashboard-container,
+    body.theme-legacy .modal-content {
+        background: rgba(10, 5, 8, 0.9) !important;
+        border: 1px solid var(--verde-base) !important;
+        
+        clip-path: polygon(
+        0 40px,              /* Corte Arriba-Izquierda */
+        40px 0,              /* Fin corte Arriba-Izquierda */
+        100% 0,              /* ESQUINA ARRIBA-DERECHA (100% PROTEGIDA PARA LA X) */
+        100% calc(100% - 40px), /* Inicio corte Abajo-Derecha */
+        calc(100% - 40px) 100%, /* Fin corte Abajo-Derecha */
+        0 100%               /* Esquina Abajo-Izquierda cuadrada */
+    );
+        box-shadow: inset 0 0 20px rgba(255, 0, 108, 0.2) !important;
+    }
+
+    
+
+    /* --- TRANSFORMACIÓN DE CARPETAS A DISQUETES (FLOPPY DISKS) --- */
+    body.theme-legacy .win11-folder {
+        width: 55px;
+        height: 55px;
+        background: #1a1a1a !important; /* Plástico negro del disquete */
+        border: 1px solid #333 !important;
+        border-radius: 2px !important;
+        position: relative;
+    }
+
+    /* La pieza de metal deslizante del disquete */
+    body.theme-legacy .win11-folder::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 10px;
+        width: 35px; height: 15px;
+        background: #444; /* Metal */
+        border-bottom: 2px solid #222;
+        z-index: 2;
+    }
+
+    /* La etiqueta magenta del disquete */
+    body.theme-legacy .win11-folder::after {
+        content: "";
+        position: absolute;
+        bottom: 5px; left: 5px;
+        width: 45px; height: 25px;
+        background: var(--verde-base);
+        opacity: 0.8;
+    }
+
+    body.theme-legacy .folder-back,
+    body.theme-legacy .folder-front {
+        display: none; /* Eliminamos el look de Windows 11 */
+    }
+
+    /* --- TARJETAS CON LÁSER DE ESCANEO --- */
+    body.theme-legacy .unit-card-wrapper {
+        border-radius: 0 !important;
+        border: 1px solid var(--verde-base);
+        background: #000;
+    }
+
+    /* Línea láser que sube y baja (Solo en Legacy) */
+    body.theme-legacy .unit-card-wrapper::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 2px;
+        background: var(--verde-base);
+        box-shadow: 0 0 15px var(--verde-base);
+        z-index: 10;
+        animation: legacy-laser-scan 3s linear infinite;
+    }
+
+    @keyframes legacy-laser-scan {
+        0% { top: 0%; }
+        100% { top: 100%; }
+    }
+
+    /* --- BOTONES NEÓN --- */
+    body.theme-legacy .btn {
+        border: 1px solid var(--verde-base);
+        background: transparent;
+        box-shadow: 0 0 5px var(--verde-base);
+    }
+
+    body.theme-legacy .btn:hover {
+        background: var(--verde-base);
+        color: #fff;
+        box-shadow: 0 0 20px var(--verde-base);
+    }
+
+    /* --- SIDEBAR RETRO --- */
+    body.theme-legacy .win-sidebar {
+        background: rgba(45, 10, 24, 0.3) !important;
+        border-right: 1px solid var(--verde-base) !important;
+    }
+
+    body.theme-legacy .side-item {
+        font-family: 'Courier New', Courier, monospace;
+        color: var(--verde-high);
+        font-size: 12px;
+    }
+
+    /* --- CORRUPCIÓN TEMA LEGACY: ANALOG DRIFT (SUAVE Y SEGURO) --- */
+
+/* 1. La Tarjeta: Brillo constante y distorsión de onda lenta */
+body.theme-legacy .unit-card-wrapper.corrupted {
+    border: 2px solid #ff006c !important;
+    background: #1a050d !important;
+    /* Un resplandor fijo, sin parpadeos */
+    box-shadow: 0 0 15px rgba(255, 0, 108, 0.4) !important;
+    /* Movimiento de "ola" muy lento */
+    animation: legacy-vhs-slow-drift 4s ease-in-out infinite !important;
+}
+
+/* 2. El Texto: Rojo estático, sin animaciones de parpadeo */
+body.theme-legacy .unit-card-wrapper.corrupted::before {
+    content: ":: [!] ARCHIVE_UNSTABLE [!] ::" !important;
+    color: #fff !important;
+    background: #ff006c !important;
+    font-weight: bold;
+    font-size: 0.6rem !important;
+    text-shadow: 2px 2px 0px rgba(0, 255, 255, 0.5);
+    opacity: 1 !important; /* Siempre sólido */
+    transform: translate(-40px, -40px);
+}
+
+/* 3. La Imagen: Colores deslavados y distorsión lenta */
+body.theme-legacy .unit-card-wrapper.corrupted .unit-image-link img {
+    /* Efecto de color degradado sutil */
+    filter: sepia(0.5) contrast(1.2) brightness(0.6) hue-rotate(10deg) !important;
+    opacity: 0.5 !important;
+    transition: filter 1s ease;
+}
+
+/* 4. El Láser: Se mueve de forma constante y lenta */
+body.theme-legacy .unit-card-wrapper.corrupted::after {
+    background: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 0 10px #ff006c !important;
+    /* Bajamos la velocidad del láser a 5 segundos */
+    animation: legacy-laser-slow 5s ease-in-out infinite !important;
+}
+
+/* --- ANIMACIONES FLUIDAS (SIN SALTOS BRUSCOS) --- */
+
+/* Simula la curvatura de una cinta vieja estirándose suavemente */
+@keyframes legacy-vhs-slow-drift {
+    0%, 100% { transform: scale(1) skewX(0deg); }
+    50% { transform: scale(1.01) skewX(1deg); }
+}
+
+/* El láser sube y baja de forma pausada */
+@keyframes legacy-laser-slow {
+    0% { top: 0%; opacity: 0.2; }
+    50% { top: 100%; opacity: 0.5; }
+    100% { top: 0%; opacity: 0.2; }
+}
+
+/* 5. MODAL DE ERROR PARA TEMA LEGACY (Sólido y Elegante) */
+body.theme-legacy #modal-error .modal-content {
+    border: 2px solid #ff006c !important;
+    box-shadow: 0 0 30px rgba(255, 0, 108, 0.3) !important;
+    background: #0a0508 !important;
+    /* Eliminamos cualquier animación de vibración */
+    animation: none !important;
+}
+
+    /* --- DETALLES DE INMERSIÓN UNITY --- */
+
+    /* --- TEMA: UNITY (ESTRUCTURA DE ALTA SEGURIDAD / BRUTALISTA) --- */
+
+    body.theme-unity .dashboard-container,
+    body.theme-unity .modal-content {
+        background-color: var(--bg-negro) !important;
+        /* 1. Eliminamos curvas: SCP es militar/científico, no usa redondeos */
+        border-radius: 0 !important; 
+        border: 2px solid var(--verde-base) !important;
+        /* 2. Doble borde tipo "Caja de Seguridad" */
+        outline: 4px solid var(--bg-negro);
+        outline-offset: -6px;
+        box-shadow: 0 0 0 1px var(--verde-base) inset !important;
+    }
+
+    /* --- TRANSFORMACIÓN DE CARPETAS A KEYCARDS (TARJETAS DE ACCESO) --- */
+    body.theme-unity .win11-folder {
+        width: 70px;
+        height: 45px;
+        background: #1c222d !important; /* Gris azulado oscuro */
+        border: 1px solid var(--verde-base) !important;
+        border-radius: 4px !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* La banda magnética de la tarjeta */
+    body.theme-unity .win11-folder::before {
+        content: "";
+        position: absolute;
+        top: 10px; left: 0;
+        width: 100%; height: 8px;
+        background: #000;
+        opacity: 0.8;
+    }
+
+    /* El chip dorado de la tarjeta */
+    body.theme-unity .win11-folder::after {
+        content: "";
+        position: absolute;
+        bottom: 8px; right: 8px;
+        width: 12px; height: 10px;
+        background: var(--verde-base);
+        border-radius: 2px;
+        box-shadow: 0 0 5px var(--verde-base);
+    }
+
+    body.theme-unity .folder-back,
+    body.theme-unity .folder-front {
+        display: none; /* Matamos el diseño de Windows 11 */
+    }
+
+    /* --- BOTONES ESTILO TERMINAL CUADRADA --- */
+    body.theme-unity .btn, 
+    body.theme-unity .view-btn {
+        border-radius: 0 !important;
+        border: 1px solid var(--verde-base);
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    body.theme-unity .btn:hover {
+        background: var(--verde-base);
+        color: #000 !important;
+    }
+
+    /* --- TARJETAS DE BOT: ARCHIVO CLASIFICADO --- */
+    body.theme-unity .unit-card-wrapper {
+        border-radius: 0 !important; /* Cero curvas */
+        border: 1px solid var(--borde-dark);
+    }
+
+    body.theme-unity .unit-card-wrapper:hover {
+        border-color: var(--verde-base);
+    }
+
+    /* El efecto SCAN en Unity es un escaneo láser blanco/dorado */
+    body.theme-unity .unit-card-wrapper::before {
+        background: rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid var(--verde-base);
+        color: var(--verde-high);
+    }
+
+    /* --- SIDEBAR CLÍNICA --- */
+    body.theme-unity .win-sidebar {
+        background: #0a0b0d !important;
+        border-right: 2px solid var(--verde-base) !important;
+    }
+
+    body.theme-unity .side-label {
+        background: var(--verde-base);
+        color: #000;
+        padding: 2px 5px;
+        font-weight: 900;
+    }
+
+    /* --- CORRUPCIÓN TEMA UNITY: CONTAINMENT_LOCK (PROTOCOLO SCP) --- */
+
+    /* 1. La Tarjeta: Pulso de alerta roja profunda y lenta */
+    body.theme-unity .unit-card-wrapper.corrupted {
+        border: 2px solid #630000 !important; /* Rojo sangre oscuro */
+        background: #05080f !important;
+        /* Resplandor rojo muy suave y pausado */
+        animation: unity-containment-pulse 3s ease-in-out infinite !important;
+        box-shadow: none !important;
+    }
+
+    /* 2. El Texto: "REDACTED" con estilo de documento oficial */
+    body.theme-unity .unit-card-wrapper.corrupted::before {
+        content: ":: [!] DATA_REDACTED [!] ::" !important;
+        color: #fff !important;
+        background: #4a0000 !important; /* Fondo rojo oscuro sólido */
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 0.5rem !important;
+        font-weight: bold;
+        letter-spacing: 2px;
+        opacity: 1 !important;
+        transform: translate(-40px, -10px);
+    }
+
+    /* 3. La Imagen: Censurada (Desenfoque pesado y oscurecimiento) */
+    body.theme-unity .unit-card-wrapper.corrupted .unit-image-link img {
+        /* Filtro de censura: muy borroso y casi negro */
+        filter: blur(8px) brightness(0.2) grayscale(1) !important;
+        opacity: 0.4 !important;
+    }
+
+    /* 4. Nombre del Bot en Rojo de Advertencia */
+    body.theme-unity .unit-card-wrapper.corrupted .unit-name {
+        color: #ff4444 !important;
+        text-shadow: 0 0 5px #630000;
+    }
+
+    /* --- ANIMACIÓN DE ALERTA DE BÚNKER (LENTA) --- */
+    @keyframes unity-containment-pulse {
+        0%, 100% {
+            border-color: #4a0000;
+            box-shadow: inset 0 0 10px rgba(74, 0, 0, 0.5);
+        }
+        50% {
+            border-color: #ff0000; /* Rojo vibrante solo en el borde */
+            box-shadow: inset 0 0 25px rgba(255, 0, 0, 0.2), 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+    }
+
+    /* 5. MODAL DE ERROR PARA TEMA UNITY (Clínico y Autoritario) */
+    body.theme-unity #modal-error .modal-content {
+        border: 1px solid #ff0000 !important;
+        background: #05080f !important;
+        box-shadow: 0 0 40px rgba(0,0,0,1) !important;
+    }
+
+    body.theme-unity #modal-error h2 {
+        background: #ff0000;
+        color: #fff !important;
+        text-align: center;
+        letter-spacing: 5px;
+    }
+
+
+
+    /* --- DETALLES DE INMERSIÓN BRIDGES --- */
+
+        /* --- CONTENEDORES CON BRACKETS (ESQUINAS) --- */
+    body.theme-bridges .dashboard-container,
+    body.theme-bridges .modal-content {
+        background: rgba(11, 17, 21, 0.8) !important;
+        border: 1px solid rgba(50, 225, 255, 0.2) !important;
+        /* Creamos los corchetes de las esquinas con gradientes */
+        background-image: 
+            linear-gradient(to right, var(--verde-base) 15px, transparent 15px),
+            linear-gradient(to bottom, var(--verde-base) 15px, transparent 15px),
+            linear-gradient(to left, var(--verde-base) 15px, transparent 15px),
+            linear-gradient(to top, var(--verde-base) 15px, transparent 15px) !important;
+        background-repeat: no-repeat !important;
+        background-size: 20px 20px, 20px 20px, 20px 20px, 20px 20px !important;
+        background-position: 0 0, 0 0, 100% 100%, 100% 100% !important;
+        padding: 40px !important;
+    }
+
+    /* --- TRANSFORMACIÓN DE CARPETAS A MALETAS BRIDGES --- */
+    body.theme-bridges .win11-folder {
+        width: 60px;
+        height: 40px;
+        background: var(--amarillo-bridges) !important;
+        border-radius: 2px !important;
+        clip-path: none !important;
+    }
+
+    /* Añadimos las cintas negras de las maletas de carga */
+    body.theme-bridges .win11-folder::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 10px;
+        width: 10px; height: 100%;
+        background: #000; /* Cinta negra 1 */
+        opacity: 0.8;
+        z-index: 2;
+    }
+
+    body.theme-bridges .win11-folder::after {
+        content: "";
+        position: absolute;
+        top: 0; right: 10px;
+        width: 10px; height: 100%;
+        background: #000; /* Cinta negra 2 */
+        opacity: 0.8;
+        z-index: 2;
+    }
+
+    body.theme-bridges .folder-back,
+    body.theme-bridges .folder-front {
+        display: none; /* Quitamos la forma de Windows 11 */
+    }
+
+    /* --- ESTILO DE LA SIDEBAR (LISTA TÉCNICA) --- */
+    body.theme-bridges .win-sidebar {
+        background: transparent !important;
+        border-right: 1px solid rgba(50, 225, 255, 0.1) !important;
+    }
+
+    body.theme-bridges .side-item {
+        border-left: 2px solid transparent;
+        margin-bottom: 10px;
+    }
+
+    body.theme-bridges .side-item:hover {
+        border-left: 2px solid var(--verde-base);
+        background: linear-gradient(to right, rgba(50, 225, 255, 0.1), transparent);
+    }
+
+    /* --- BOTONES HUD --- */
+    body.theme-bridges .btn {
+        border: 1px solid rgba(50, 225, 255, 0.3);
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+    }
+
+    body.theme-bridges .btn:hover {
+        background: var(--verde-base);
+        color: #000;
+    }
+
+    /* --- CORRUPCIÓN TEMA BRIDGES: VOIDOUT_WARNING (ODRADEK ALERT) --- */
+
+    /* 1. La Tarjeta: Pulso naranja de advertencia mecánica */
+    body.theme-bridges .unit-card-wrapper.corrupted {
+        border: 2px solid #ff6600 !important; /* Naranja de Alerta Odradek */
+        background: #000 !important;
+        /* Pulso constante de "Peligro Cercano" */
+        animation: bridges-odradek-alert 2s ease-in-out infinite !important;
+        box-shadow: none !important;
+    }
+
+    /* 2. El Texto: Aviso de riesgo de craterización */
+    body.theme-bridges .unit-card-wrapper.corrupted::before {
+        content: ":: [!] VOIDOUT_RISK [!] ::" !important;
+        color: #ff6600 !important;
+        background: rgba(255, 102, 0, 0.1);
+        font-family: 'Share Tech Mono', monospace;
+        font-weight: bold;
+        text-shadow: 0 0 10px #ff6600;
+        opacity: 1 !important;
+    }
+
+    /* 3. La Imagen: Efecto de Alquitrán / Quiralium */
+    body.theme-bridges .unit-card-wrapper.corrupted .unit-image-link img {
+        /* Filtro: Oscurecemos casi totalmente y damos un tono petróleo sucio */
+        filter: grayscale(1) brightness(0.1) contrast(3) !important;
+        opacity: 0.2 !important;
+    }
+
+    /* 4. Nombre del Bot en el naranja de Bridges */
+    body.theme-bridges .unit-card-wrapper.corrupted .unit-name {
+        color: #ff6600 !important;
+        text-shadow: 0 0 5px #ff3300;
+    }
+
+    /* --- ANIMACIÓN DE ADVERTENCIA ODRADEK (RÍTMICA) --- */
+    @keyframes bridges-odradek-alert {
+        0%, 100% {
+            border-color: #993300; /* Naranja apagado */
+            filter: saturate(1);
+        }
+        50% {
+            border-color: #ff6600; /* Naranja brillante */
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.4), inset 0 0 10px rgba(255, 102, 0, 0.2);
+            filter: saturate(2);
+        }
+    }
+
+    /* 5. MODAL DE ERROR PARA TEMA BRIDGES (Estilo UCA/Bridges HUD) */
+    body.theme-bridges #modal-error .modal-content {
+        border: 1px solid #ff6600 !important;
+        background: #0b1115 !important;
+        /* Brackets en las esquinas para el error */
+        background-image: 
+            linear-gradient(to right, #ff6600 15px, transparent 15px),
+            linear-gradient(to bottom, #ff6600 15px, transparent 15px) !important;
+        background-size: 20px 20px !important;
+        background-repeat: no-repeat !important;
+    }
+
+    body.theme-bridges #modal-error h2 {
+        color: #ff6600 !important;
+        border-bottom: 1px solid #ff6600;
+    }
+
+    body.theme-deus .crt-overlay {
+    background-image: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
+        /* Patrón de malla hexagonal sutil */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%23ffb000' fill-opacity='0.05' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.89v12.22l11 6.35 11-6.35V17.89L14 11.54 3 17.89z'/%3E%3C/svg%3E");
+    background-size: 100% 4px, 28px 49px;
+    animation: flicker-soft 0.2s infinite;
+    }
+
+/* --- CONTENEDORES ANGULARES (ESTILO SARIF) --- */
+    body.theme-deus .dashboard-container,
+    body.theme-deus .modal-content {
+        background: rgba(0, 0, 0, 0.95) !important;
+        border: 2px solid var(--verde-base) !important;
+        /* Corte de esquinas agresivo (45 grados) */
+        clip-path: polygon(
+            20px 0%, 100% 0%, 100% calc(100% - 20px), 
+            calc(100% - 20px) 100%, 0% 100%, 0% 20px
+        );
+        box-shadow: 0 0 30px rgba(255, 176, 0, 0.1) !important;
+    }
+
+/* --- TRANSFORMACIÓN DE CARPETAS A NODOS TÁCTICOS --- */
+    body.theme-deus .win11-folder {
+        width: 50px;
+        height: 50px;
+        background: transparent !important;
+        border: 2px solid var(--verde-base);
+        transform: rotate(45deg); /* Los iconos son rombos/diamantes */
+        border-radius: 0 !important;
+    }
+
+    body.theme-deus .win11-folder::after {
+        content: "▲";
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        color: var(--verde-base);
+        font-size: 1.2rem;
+    }
+
+    body.theme-deus .folder-back,
+    body.theme-deus .folder-front {
+        display: none; /* Eliminamos el look de Windows */
+    }
+
+    /* --- BOTONES CON SKEW (INCLINADOS) --- */
+    body.theme-deus .btn, 
+    body.theme-deus .view-btn {
+        transform: skewX(-15deg);
+        background: transparent;
+        border: 1px solid var(--verde-base);
+        font-weight: bold;
+    }
+
+    body.theme-deus .btn:hover {
+        background: var(--verde-base);
+        color: #000;
+        transform: skewX(-15deg) scale(1.05);
+    }
+
+    /* --- EFECTO SCAN (COLOR DEUS) --- */
+    body.theme-deus .unit-card-wrapper {
+        border-color: var(--verde-base);
+        background: #0a0800;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+    }
+
+    body.theme-deus .unit-card-wrapper::before {
+        color: var(--verde-high);
+        background: rgba(255, 176, 0, 0.15);
+        text-shadow: 0 0 10px var(--verde-base);
+    }
+
+    /* --- BARRA LATERAL (SIDEBAR) --- */
+    body.theme-deus .win-sidebar {
+        background: rgba(15, 10, 0, 0.5) !important;
+        border-right: 1px solid var(--verde-base) !important;
+    }
+
+    body.theme-deus .side-item {
+        color: var(--verde-base);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        border-bottom: 1px solid rgba(255, 176, 0, 0.1);
+    }
+
+    body.theme-deus .side-item:hover {
+        background: var(--verde-base);
+        color: #000;
+    }
+    
+    /* --- TEXTO DE ACCESO DENEGADO --- */
+    body.theme-deus .unit-card-wrapper.corrupted::before {
+        content: ":: [!] CONNECTION_SEVERED [!] ::" !important;
+        color: var(--rojo-error) !important;
+        background: rgba(255, 77, 0, 0.1);
+        text-shadow: 0 0 10px var(--rojo-error);
+        font-weight: 900;
+       
+    }
+
+    @keyframes deus-glitch-flicker {
+        0%   { opacity: 1;   filter: brightness(1);   transform: translateX(0); }
+        10%  { opacity: 0.8; filter: brightness(2);   transform: translateX(1px); }
+        20%  { opacity: 1;   filter: brightness(1.2); transform: translateX(-1px); }
+        30%  { opacity: 0.9; filter: brightness(3);   transform: translateX(0); }
+        40%  { opacity: 1;   filter: brightness(1.5); transform: translateX(2px); }
+        50%  { opacity: 0.7; filter: brightness(1);   transform: translateX(-2px); }
+        80%  { opacity: 1;   filter: brightness(2.5); transform: translateX(1px); }
+        100% { opacity: 1;   filter: brightness(1);   transform: translateX(0); }
+    }
+
+/* --- APLICACIÓN A LA TARJETA CORRUPTA --- */
+    body.theme-deus .unit-card-wrapper.corrupted {
+        opacity: 1 !important;
+        transform: none !important;
+        
+        /* Aplicamos el pulso lento */
+        animation: deus-glitch-flicker 1s infinite !important;
+        
+        border: 2px solid var(--rojo-error) !important;
+        background-color: rgba(255, 77, 0, 0.05) !important;
+    }
+
+/* El texto se queda fijo, solo brilla suavemente */
+    body.theme-deus .unit-card-wrapper.corrupted .unit-name {
+        color: var(--rojo-error) !important;
+        text-shadow: 0 0 10px var(--rojo-error);
+        animation: none !important;
+    }
+
+    /* --- TEXTURA ÚNICA: RUIDO / ESTÁTICA DE PAPEL --- */
+    body.theme-ex .crt-overlay {
+        background-image: 
+            /* Efecto de estática de puntos pesada */
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.15;
+        animation: static-shiver 0.1s infinite; /* Micro-vibración de la estática */
+    }
+
+    @keyframes static-shiver {
+        0% { transform: translate(0,0); }
+        50% { transform: translate(-1px, 1px); }
+        100% { transform: translate(1px, -1px); }
+    }
+
+    /* --- CONTENEDORES: BORDE DOBLE (ESTILO IMPRESO) --- */
+    body.theme-ex .dashboard-container,
+    body.theme-ex .modal-content {
+        background: #000 !important;
+        border: 1px solid #fff !important;
+        /* Efecto de doble borde técnico */
+        outline: 4px solid #000;
+        outline-offset: -8px;
+        box-shadow: none !important;
+    }
+
+    /* --- TRANSFORMACIÓN DE CARPETAS A ICONOS DE SISTEMA 1-BIT --- */
+    body.theme-ex .win11-folder {
+        width: 60px;
+        height: 45px;
+        background: transparent !important;
+        border: 2px solid #fff !important;
+        border-radius: 0 !important;
+    }
+
+    body.theme-ex .win11-folder::after {
+        content: "FILE";
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.6rem;
+        color: #fff;
+    }
+
+    body.theme-ex .folder-back,
+    body.theme-ex .folder-front {
+        display: none;
+    }
+
+    /* --- TARJETAS: EFECTO INVERTIDO --- */
+    body.theme-ex .unit-card-wrapper {
+        background: #000;
+        border: 1px solid #fff;
+        transition: all 0.2s ease;
+    }
+
+    /* ¡LA MAGIA! Al hacer hover, la tarjeta se INVIERTE (Blanco sobre negro) */
+    body.theme-ex .unit-card-wrapper:hover {
+        background: #fff !important;
+        box-shadow: none !important;
+    }
+
+    body.theme-ex .unit-card-wrapper:hover .unit-name {
+        color: #ff4848 !important;
+        text-shadow: none;
+    }
+
+    body.theme-ex .unit-card-wrapper:hover .unit-desc {
+        color: #333 !important;
+    }
+
+    body.theme-ex .unit-card-wrapper:hover img {
+        filter: invert(1) grayscale(1) contrast(2) !important;
+    }
+
+    /* --- BOTONES BRUTALISTAS --- */
+    body.theme-ex .btn {
+        border: 2px solid #fff;
+        text-transform: uppercase;
+        font-weight: 900;
+    }
+
+    body.theme-ex .btn:hover {
+        background: #fff;
+        color: #000;
+    }
+
+    /* --- MENÚ DE TEMA SÓLIDO --- */
+    body.theme-ex .theme-dropdown {
+        background: #000 !important;
+        border: 2px solid #fff;
+    }
+
+    body.theme-ex .theme-option {
+        border-bottom: 1px solid #333;
+    }
+
+    /* 1. La Tarjeta Corrupta: Se vuelve un bloque de ruido gris */
+    body.theme-ex .unit-card-wrapper.corrupted {
+        border: 1px dashed #fff !important; /* Borde discontinuo */
+        background: repeating-linear-gradient(
+            45deg,
+            #000,
+            #000 5px,
+            #111 5px,
+            #111 10px
+        ) !important;
+        animation: ex-data-decay 0.2s infinite !important;
+        box-shadow: none !important;
+    }
+
+    /* 2. El Texto: Cambiamos "SCAN" por un error de puntero nulo */
+    body.theme-ex .unit-card-wrapper.corrupted::before {
+        content: "[ ERROR: NULL_PTR_DUMP ]" !important;
+        font-family: 'Courier New', monospace !important;
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 0.7rem !important;
+        letter-spacing: -1px;
+        padding: 2px 5px;
+        /* El texto salta de posición aleatoriamente */
+        animation: ex-text-glitch 0.1s infinite !important;
+    }
+
+    /* 3. La Imagen: Alto contraste y grano extremo */
+    body.theme-ex .unit-card-wrapper.corrupted .unit-image-link img {
+        filter: grayscale(1) contrast(5) brightness(0.5) !important;
+        opacity: 0.3 !important;
+        /* La imagen se "desgarra" con clip-path */
+        animation: ex-image-tear 0.3s steps(2) infinite !important;
+    }
+
+    /* --- ANIMACIONES DE DEGRADACIÓN DE DATOS --- */
+
+    /* Vibración seca y rápida */
+    @keyframes ex-data-decay {
+        0% { transform: translate(0,0); }
+        25% { transform: translate(-1px, 1px); }
+        75% { transform: translate(1px, -1px); }
+        100% { transform: translate(0,0); }
+    }
+
+    /* El texto de error salta por la tarjeta */
+    @keyframes ex-text-glitch {
+        0% { top: 50%; left: 50%; }
+        10% { top: 48%; left: 51%; }
+        20% { top: 52%; left: 49%; }
+        40% { top: 45%; left: 50%; }
+        60% { top: 50%; left: 50%; }
+    }
+
+    /* Desgarro horizontal de la imagen */
+    @keyframes ex-image-tear {
+        0% { clip-path: inset(0 0 0 0); }
+        30% { clip-path: inset(20% 0 50% 0); transform: translateX(5px); }
+        60% { clip-path: inset(80% 0 0 0); transform: translateX(-5px); }
+        100% { clip-path: inset(0 0 0 0); }
+    }
+
+    /* 4. MODAL DE ERROR PARA TEMA EX (Estilo Aviso de Sistema Antiguo) */
+    body.theme-ex #modal-error .modal-content {
+        border: 4px double #fff !important;
+        background: #000 !important;
+        outline: none !important;
+    }
+
+    body.theme-ex #modal-error h2 {
+        background: #fff;
+        color: #000 !important;
+        padding: 5px;
+    }

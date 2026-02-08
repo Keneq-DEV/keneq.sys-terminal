@@ -14,19 +14,37 @@
 <body>
 
     <div class="crt-overlay"></div>
+    <div id="theme-transition-layer" class="glitch-transition"></div>
     <img id="profile-gif-bg" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhmYnN5YWFwNnkxNmdyMHZjZGJieDRiYmQyZ2Jnd25rZTloZjRuMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VeWkxETRDSWJcgRTLQ/giphy.gif">
 
     <header>
-        <div class="logo">KENEQ.SYS // TERMINAL v2.0</div>
+        <div class="logo">KENEQ.SYS // TERMINAL <span id="sys-version">v2.0</span></div>
+
+        <div class="theme-selector-wrapper">
+    <!-- El botón ahora solo abre/cierra el menú -->
+        <button id="theme-btn" class="theme-switcher-btn" onclick="toggleThemeMenu()">[ SYSTEM_THEME ] ▼</button>
+    
+    <!-- La lista desplegable -->
+        <div id="theme-menu" class="theme-dropdown">
+        <div class="theme-option" onclick="selectSpecificTheme(0)">> FRAGMENTED</div>
+        <div class="theme-option" onclick="selectSpecificTheme(1)">> LEGACY</div>
+        <div class="theme-option" onclick="selectSpecificTheme(2)">> UNITY</div>
+        <div class="theme-option" onclick="selectSpecificTheme(3)">> DEUS</div>
+        <div class="theme-option" onclick="selectSpecificTheme(4)">> EX</div>
+        <div class="theme-option" onclick="selectSpecificTheme(5)">> BRIDGES</div>
+        </div>
+        </div>
         <div id="clock">00:00:00</div>
-    </header>
+</header>
 
     <nav class="command-bar">
         <button class="btn" onclick="toggleFullScreen()">[ ] FULLSCREEN</button>
         <button class="btn" onclick="goToDashboard()">DASHBOARD</button>
         <button class="btn" onclick="openModal('modal-explorer')">UNITS_DATABASE</button>
+        <button class="btn" onclick="openModal('modal-archives'); loadArchives();">CLASSIFIED_ARCHIVES</button>
         <button class="btn" onclick="openModal('modal-status')">SYSTEM_STATUS</button>
         <button class="btn" onclick="window.open('https://janitorai.com/profiles/545c2fad-bf1f-4a6c-af5f-6dc4c705d448_profile-of-keneq-sys', '_blank')">RETURN_TO_JAI</button>
+        
     </nav>
 
     <!-- DASHBOARD PRINCIPAL -->
@@ -47,7 +65,7 @@
                 <div class="inner-content">
                     • CONTENT: Dark Narrative / NSFW Focus<br>
                     • PROTOCOL: Multi-paragraph Literacy<br>
-                    • VERSIONS: 1000.
+                    • VERSIONS: 3000.
                 </div>
             </details>
         </div>
@@ -64,7 +82,7 @@
             <aside class="win-sidebar">
                 <details class="side-group" open>
                 <summary>Quick Access</summary>
-                <div class="side-item" onclick="openFolderContent('view-root')">⭐ Home</div>
+                <div class="side-item" onclick="openFolderContent('view-root')">⬣ Home</div>
                 <div class="side-item" onclick="openFolderContent('view-request')">📂 REQUESTS_DATA</div>
             </details>
 
@@ -88,7 +106,6 @@
                 <button class="view-btn active" onclick="setViewSize('size-m')">M</button>
                 <button class="view-btn" onclick="setViewSize('size-l')">L</button>
             </div>
-                
                 
     
                 <hr style="border:0; border-top:1px solid var(--borde-dark); margin:15px 0;">
@@ -123,11 +140,6 @@
                             <span class="folder-name">DOGKNIGHTS_DATA</span>
                         </div>
 
-                        <div class="folder-wrapper" onclick="openFolderContent('view-request')">
-                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
-                            <span class="folder-name">REQUESTS_DATA</span>
-                        </div>
-
                         <div class="folder-wrapper" onclick="openFolderContent('view-uncat')">
                             <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
                             <span class="folder-name">UNCAT_DATA</span>
@@ -143,6 +155,11 @@
                             <span class="folder-name">CHROME_SUTRA_DATA</span>
                         </div>
 
+                        <div class="folder-wrapper" onclick="openFolderContent('view-tsc')">
+                            <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
+                            <span class="folder-name">STOCKHOLM_COMPENDIUM_DATA</span>
+                        </div>
+
                         <div class="folder-wrapper" onclick="openFolderContent('view-httyd')">
                             <div class="win11-folder"><div class="folder-back"></div><div class="folder-front"></div></div>
                             <span class="folder-name">HTTYD_DATA</span>
@@ -155,10 +172,70 @@
                         </div>
                         <!-- FIN COPIA -->
 
+                        
+
                     </div>
                 </div>
             </section>
         </div>
+    </div>
+</div>
+
+<!-- MODAL: CLASSIFIED ARCHIVES (DOSSIER VIEW) -->
+<div id="modal-archives" class="modal">
+    <div class="modal-content" style="flex-direction: row; padding: 0;">
+        <a href="javascript:closeModal('modal-archives')" class="close-btn">×</a>
+
+        <!-- COLUMNA IZQUIERDA: LISTA DE UNIDADES -->
+        <aside class="archive-sidebar">
+            <h3 style="padding: 20px; border-bottom: 1px solid var(--verde-base); color: var(--verde-high);">// INDEX</h3>
+            <div id="archive-list" class="archive-list-container">
+                <!-- Se llena con JS -->
+            </div>
+        </aside>
+
+        <!-- COLUMNA DERECHA: VISOR DEL DOSSIER -->
+        <section class="archive-viewport">
+            <div id="dossier-placeholder" style="display:flex; height:100%; justify-content:center; align-items:center; opacity:0.5;">
+                SELECT_UNIT_TO_DECRYPT_DATA...
+            </div>
+
+            <div id="dossier-content" style="display:none; height:100%; overflow-y: auto; padding: 30px;">
+                <!-- CABECERA -->
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom: 1px solid var(--borde-dark); padding-bottom:10px; margin-bottom:20px;">
+                    <div>
+                        <h1 id="dos-name" style="font-size: 2.5rem; color: var(--verde-high); text-shadow: var(--glow);">UNIT_NAME</h1>
+                        <span id="dos-org" style="color: var(--gris-dim); font-size: 0.9rem;">ORIGIN_DATA</span>
+                    </div>
+                    <div id="dos-status" style="border:1px solid var(--verde-base); padding: 5px 10px; font-size: 0.8rem;">STATUS: OK</div>
+                </div>
+
+                <!-- CUERPO -->
+                <div style="display: grid; grid-template-columns: 1fr 300px; gap: 30px;">
+                    
+                    <!-- INFO Y TAGS -->
+                    <div>
+                        <h3 style="color: var(--verde-base); margin-bottom: 10px;">>> DATA_LOGS</h3>
+                        <p id="dos-desc" style="line-height: 1.6; color: #e0e0e0; margin-bottom: 20px; white-space: pre-wrap;"></p>
+                        
+                        <h3 style="color: var(--verde-base); margin-bottom: 10px;">>> CLASSIFICATION_TAGS</h3>
+                        <div id="dos-tags" class="tag-container">
+                            <!-- Los tags se inyectan aquí -->
+                        </div>
+                    </div>
+
+                    <!-- GALERÍA DE IMÁGENES -->
+                    <div class="gallery-container">
+                        <div class="main-img-wrapper">
+                            <img id="dos-main-img" src="" alt="Main View">
+                        </div>
+                        <div id="dos-thumbnails" class="thumbnail-grid">
+                            <!-- Las miniaturas se inyectan aquí -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 
@@ -179,7 +256,7 @@
 
 <!-- ELEMENTOS DE AUDIO LOCALES -->
 <audio id="snd-ambience" loop src="TERMINAL.Audio/Ambience_terminal_1.wav"></audio>
-<audio id="terminal-sequencer" src=""></audio>
+<audio id="terminal-sequencer" preload="auto" loop></audio>
 <audio id="snd-click" src="TERMINAL.Audio/click.wav"></audio>
 <audio id="snd-error" src="TERMINAL.Audio/error.wav"></audio>
 <audio id="snd-close" src="TERMINAL.Audio/close.wav"></audio>
