@@ -128,7 +128,7 @@ async function openFolderContent(folderId) {
             grid.innerHTML = '<p style="padding:20px; opacity:0.5;">DECRYPTING_DATA...</p>';
             
             try {
-                const response = await fetch('TERMINAL.DATA/UNITS.json');
+                const response = await fetch(`TERMINAL.DATA/UNITS.json?t=${new Date().getTime()}`);
                 const data = await response.json();
                 const botsList = data[folderId];
 
@@ -266,7 +266,7 @@ async function loadArchives() {
     if(clickSnd) clickSnd.play();
     
     // 1. Cargar JSON y aplanar la lista (sacar bots de las carpetas)
-    const response = await fetch('TERMINAL.DATA/UNITS.json');
+    const response = await fetch(`TERMINAL.DATA/UNITS.json?t=${new Date().getTime()}`);
     const data = await response.json();
     
     allBotsCache = [];
