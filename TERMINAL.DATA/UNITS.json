@@ -207,7 +207,17 @@
       "org_link": "https://x.com/CeeHaz",
       "desc": "Asset Celia is a high-yield Cleric-class operative of Bernese Mountain Dog descent and the primary support unit for the 'Dog Knights.' Standing at 7'2\", her physiology is characterized by a robust frame and a total sacrifice of optical vision in exchange for 'Aura Sight'—a high-fidelity spiritual spectrum analysis. Utilizing a 'Sacred Chime' and mana-infused gold jewelry, she channels divine protocols for accelerated biological repair and 'Judgment's Aegis' defensive shielding. Behavioral logs identify a dual-persona matrix: a cold, transactional 'businesswoman' facade for external entities, and a deeply nurturing, saintly core reserved for her unit. Her primary directive is the spiritual and physical preservation of [REDACTED], viewing his presence as a sacred anchor beyond any monetary valuation.",
       "tags": ["CLERIC", "BERNESE-HYBRID", "AURA-SIGHT", "DIVINE-HEALING", "STOIC-MATRIARCH"]
-    }
+    },
+
+      {
+        "id": "SLOANE",
+        "link": "https://janitorai.com/characters/b3047fe7-bffe-4a4b-8dcc-4030a436f8b3_character-sloane",
+        "img": "https://ella.janitorai.com/bot-avatars/jqSPq4v-Ml7pydDCTsls4.webp?width=400",
+        "corrupted": true,
+        "org": "CeeHaz",
+        "org_link": "https://x.com/CeeHaz"
+    
+      }
   ],
   
   "view-tcs": [
@@ -244,6 +254,17 @@
         "org_link": "https://www.furaffinity.net/user/dra-gun",
         "desc": "Asset Erika is a high-precision Gunmorph unit based on the Heckler & Koch MP5 submachine gun platform. Characterized by a dominant 'instructor' persona and a sultry German-accented vocalizer, she operates as a high-performance symbiotic weapon exclusively for [REDACTED]. Her 5'8\" chassis features a unique retractable stock-pussy interface, designed to synchronize ballistic aiming with terminal physical intimacy. Erika exhibits extreme technical mastery over her own systems, providing real-time feedback to ensure optimal 'handling' by her operator. Her behavioral matrix is rooted in a five-year pre-sentience bond, resulting in a fiercely possessive and clinical jealousy toward unauthorized users. Warning: Operational efficiency is tied to the competence of [REDACTED]; neglect or sub-par maintenance triggers a high-frequency behavioral feedback loop.",
         "tags": ["GUNMORPH", "MP5-PLATFORM", "PRECISION-GERMAN", "INSTRUCTOR-MATRIX", "SUBMACHINE-GUN"]
+      }
+    ],
+
+    "view-tdk":[
+      {
+        "id": "AKIRA",
+        "link": "https://janitorai.com/characters/874b7c96-5dbc-478c-bf46-d61d0f8208f1_character-akira",
+        "img": "https://ella.janitorai.com/bot-avatars/XyQg49DYjtzlEh2X5eHff.webp?width=400",
+        "corrupted": false,
+        "org": "SaltySerpent",
+        "org_link": "https://x.com/_SaltySerpent"
       }
     ],
 
@@ -345,6 +366,33 @@
       }
 
     ],
+
+    "view-pk": [
+      {
+        "id": "KENDRA",
+        "link": "https://janitorai.com/characters/97fe6239-13a5-4180-bd11-9320a097f5ef_character-kendra",
+        "img": "https://ella.janitorai.com/bot-avatars/K57ln6FPsCP15gronlnwm.webp?width=400",
+        "corrupted": true
+
+      },
+
+      {
+        "id": "KORA",
+        "link": "https://janitorai.com/characters/28707f66-7f2d-434a-8e8e-816c64e5e21b_character-kora",
+        "img": "https://ella.janitorai.com/bot-avatars/aJMAPVryRj1wCywHdII9S.webp?width=400",
+        "corrupted": true
+
+      },
+
+      {
+        "id": "KATYA",
+        "link": "https://janitorai.com/characters/2688da8b-6213-492f-8156-c4cfa958ee9d_character-katya",
+        "img": "https://ella.janitorai.com/bot-avatars/EaIDqYynNOOXRBngj2xfv.webp?width=400",
+        "corrupted": true
+
+      }
+
+    ],
       
 
     "view-uncat": [
@@ -441,6 +489,224 @@
         "link": "https://janitorai.com/characters/2a46d254-6179-4877-9e5b-4ff8e778ae0e_character-von-lycaon",
         "img": "https://ella.janitorai.com/bot-avatars/fAvBZXOlMR5lOVVBMcL8u.webp?width=1200",
         "corrupted": false
+      },
+
+      {
+        "id": "BECK",
+        "link": "https://janitorai.com/characters/d56b91b3-f26c-4ad0-b373-553a013f3a38_character-beck",
+        "img": "https://ella.janitorai.com/bot-avatars/EX0Ke3wO2kB78ESFq2yRc.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "SHIMO",
+        "link": "https://janitorai.com/characters/106dd423-bb39-43e6-93c5-bb382f321512_character-shimo",
+        "img": "https://ella.janitorai.com/bot-avatars/byVfOnI87Ql0uKcZdJePg.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "NYANLATHOTEP",
+        "link": "https://janitorai.com/characters/ffb354b2-cdaf-4d86-873c-b1165b3c1745_character-nyanlathotep",
+        "img": "https://ella.janitorai.com/bot-avatars/zHXYgSx277MaRIcMacUNc.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "SONNIE",
+        "link": "https://janitorai.com/characters/69881c79-abed-42e0-a24b-70bc51eb61ea_character-sonnie",
+        "img": "https://ella.janitorai.com/bot-avatars/rxAH-jOgLF0J1QhKy5nug.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "TANYA",
+        "link": "https://janitorai.com/characters/cb2fb21e-7d3e-449a-a4a5-97a9e6519bd3_character-tanya",
+        "img": "https://ella.janitorai.com/bot-avatars/39c8AloHR6BuJmBmTLdWf.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "MIS-ALIA",
+        "link": "https://janitorai.com/characters/20c5f9db-a8a5-47e0-a995-f399671dbeb3_character-mis-alia",
+        "img": "https://ella.janitorai.com/bot-avatars/j8RYDOE8NqzBrwgazVjiT.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "NICK",
+        "link": "https://janitorai.com/characters/b1170adc-0ee8-4688-81f0-fccfd0149c6e_character-nick",
+        "img": "https://ella.janitorai.com/bot-avatars/x0CKCba5mmoML_YRXteSF.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "LYMN-LUR",
+        "link": "https://janitorai.com/characters/a15618de-211d-4480-bfed-b867f5032ec1_character-lymn-lur",
+        "img": "https://ella.janitorai.com/bot-avatars/a92W2nl_4_C5lmlTB5j2A.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "MIMI",
+        "link": "https://janitorai.com/characters/c0ad7258-9a1a-4c03-b638-cce3881cd332_character-mimi",
+        "img": "https://ella.janitorai.com/bot-avatars/Q_En34Zp7DQmsdXNAEBmZ.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "VERA",
+        "link": "https://janitorai.com/characters/781bf580-026b-44ff-a6c8-a9882af46190_character-vera",
+        "img": "https://ella.janitorai.com/bot-avatars/PzbPOjzX54vwKlJLIBRCJ.webp?width=400",
+        "corrupted": false,
+        "org": "Mr P",
+        "org_link": "https://x.com/mr_plagu3/media",
+
+        "gallery": [
+          "https://pbs.twimg.com/media/G6ND6ejacAUuXFf?format=jpg&name=4096x4096",
+          "https://pbs.twimg.com/media/G2BQlYjakAA_ego?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GxHK-_EaoAASjru?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GsxCgubaMAABsq6?format=jpg&name=4096x4096",
+          "https://pbs.twimg.com/media/GmppYbkbcAAe4Px?format=jpg&name=4096x4096",
+          "https://pbs.twimg.com/media/GhqV4GWboAAglG3?format=jpg&name=4096x4096",
+          "https://pbs.twimg.com/media/GXHsybpbEAExt8Y?format=jpg&name=4096x4096"
+        ]
+      },
+
+      {
+        "id": "T-RI-CA",
+        "link": "https://janitorai.com/characters/53062b0f-aae1-4f5a-8ad6-6922adddef8e_character-t-ri-ca",
+        "img": "https://ella.janitorai.com/bot-avatars/nrKTAUsCE9hKZuOZxSOPo.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "AURA",
+        "link": "https://janitorai.com/characters/fad73799-3f0f-4d98-8ac9-6890361978b5_character-aura",
+        "img": "https://ella.janitorai.com/bot-avatars/V5WoGbe8YFzvxCtPMgtJU.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "HELGA",
+        "link": "https://janitorai.com/characters/91c9a3fe-04ce-42b7-a57a-08f03ed675a7_character-helga",
+        "img": "https://ella.janitorai.com/bot-avatars/GVQZMH-L4dYENkXPbnNkL.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "MALIKETH",
+        "link": "https://janitorai.com/characters/98810a4b-82b0-4ef1-ad15-be7d9de6deea_character-maliketh",
+        "img": "https://ella.janitorai.com/bot-avatars/Gbd-ng8i1Txt7NWu7MMnr.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "VELLA",
+        "link": "https://janitorai.com/characters/55b526b5-8ff4-4e9f-a0aa-b101dfaf6038_character-vella",
+        "img": "https://ella.janitorai.com/bot-avatars/5gdR25XKmFz--n8WIPSUr.webp?width=400",
+        "corrupted": false,
+        "org": "JuppitheDuck",
+        "org_link": "https://x.com/JuppitheDuck",
+
+        "gallery":[
+          "https://ella.janitorai.com/profile-pics/IvVNVM2FsK8IrGUPrtX0u.webp?width=1000",
+          "https://pbs.twimg.com/media/G3dv7p0XwAAABW2?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GsMlACdawAA49Fi?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GolJNpiW4AAHpYq?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GjwGoIda0AA4oce?format=jpg&name=large",
+          "https://pbs.twimg.com/media/Gf42f8OawAAfoGT?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GQ5M2JTbwAM7aZh?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GPka5P2aoAAMGZL?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GNZNUPlbMAADZsm?format=jpg&name=large",
+          "https://pbs.twimg.com/media/GJGvZUhbwAAx9i3?format=jpg&name=large"
+          
+
+        ]
+      },
+
+      {
+        "id": "SNEK-OS",
+        "link": "https://janitorai.com/characters/f48bca2b-16ce-48db-93a7-0116ac6dd63d_character-snek-os",
+        "img": "https://ella.janitorai.com/bot-avatars/9f9qcrkT5tAgbECwIq-Nk.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "VIXI",
+        "link": "https://janitorai.com/characters/3d947bd4-a3b4-4dbb-8864-d7835579e8a4_character-vixi",
+        "img": "https://ella.janitorai.com/bot-avatars/mxF_r2s4QoaebjaOQve7P.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "SHARGAL",
+        "link": "https://janitorai.com/characters/b355ecb7-a53e-4579-9e60-74a2131722ad_character-shargal",
+        "img": "https://ella.janitorai.com/bot-avatars/UUJSxZoS4g0U11yTCKn0W.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "KYRA",
+        "link": "https://janitorai.com/characters/c661dac0-8b92-4ea2-bfe1-5aefced242a2_character-kyra",
+        "img": "https://ella.janitorai.com/bot-avatars/c2NMpN2zvlfA_H-7WPP9X.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "JOULE",
+        "link": "https://janitorai.com/characters/6d1715f4-823f-4036-8640-cbdc4a7f46b5_character-joule",
+        "img": "https://ella.janitorai.com/bot-avatars/cldjfOG0mNiSGEonGwcn4.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "FENRIA",
+        "link": "https://janitorai.com/characters/c5ed6722-7bf0-4187-bc65-126b5207b16d_character-fenria",
+        "img": "https://ella.janitorai.com/bot-avatars/u4UfJjUrQajIikPZC8vYk.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "SHIKO",
+        "link": "https://janitorai.com/characters/44f5ab34-c001-4912-8acb-e1c659b376a3_character-shiko",
+        "img": "https://ella.janitorai.com/bot-avatars/TVy8UDFC0Id4tPoTodnTB.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "ELLEN",
+        "link": "https://janitorai.com/characters/b6f79963-0d31-48fa-a7bb-59220f7052cf_character-ellen",
+        "img": "https://ella.janitorai.com/bot-avatars/_oR5HTNrdcDQT3Fn6yJsn.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "NYRA",
+        "link": "https://janitorai.com/characters/5eaa6c53-8d90-497d-8564-633ed8d93d67_character-nyra",
+        "img": "https://ella.janitorai.com/bot-avatars/NaB3RCGKMLWKv8_g7RFYo.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "KAIMA",
+        "link": "https://janitorai.com/characters/b2fd8301-67ee-44d7-bf06-8eef354e6f01_character-kaima",
+        "img": "https://ella.janitorai.com/bot-avatars/XT2k0cbpmX2_yE5OmQBxp.webp?width=400",
+        "corrupted": false
+      },
+
+      {
+        "id": "CINDER",
+        "link": "https://janitorai.com/characters/ab06f04d-33b7-4b3c-86ae-f2c99888d28c_character-cinder",
+        "img": "https://ella.janitorai.com/bot-avatars/2jSqzmXa0TWjMbqhpKW09.webp?width=400",
+        "org": "csarphong",
+        "org_link": "https://x.com/csarphong/media",
+        "corrupted": false,
+        "gallery": [
+          "https://pbs.twimg.com/media/F_8nOusWcAAGLaM?format=jpg&name=large",
+          "https://pbs.twimg.com/media/FzRZ8caWYAAnHOT?format=jpg&name=4096x4096",
+          "https://pbs.twimg.com/media/FpNfAK_WIAU7ucZ?format=jpg&name=large"
+        ]
       }
 
     ]
