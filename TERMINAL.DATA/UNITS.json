@@ -241,7 +241,20 @@
         "org_link": "https://janitorai.com/profiles/545c2fad-bf1f-4a6c-af5f-6dc4c705d448_profile-of-keneq-sys",
         "desc": "Asset Lucy is a high-performance Dire Vehicle of the 2020 Dodge Challenger SXT series, functioning as the primary sentient transport and fanatical guardian for [REDACTED]. Originally classified as a 'defective unit' salvaged from terminal decommissioning, she was reconstructed by [REDACTED] into an elite interceptor with a supercharged powertrain and integrated mecha-dendrites. Her matte dark gray chassis houses an advanced AI core and a front-bumper vocalizer capable of prehensile manipulation. Behavioral analysis confirms an absolute loyalty matrix and an extreme bio-mechanical dependency on [REDACTED]. Warning: Lucy maintains a high-aggression protective perimeter; any external threat to the owner triggers an immediate, high-velocity neutralization response. Subject to EMP vulnerability and phonk-frequency sensory requirements.",
         "tags": ["DIRE-VEHICLE", "SENTIENT-TRANSPORT", "MECHA-ENFORCER", "AI-INTEGRATED", "MUSCLE-CAR"]
-        }
+        },
+
+        {
+            "id": "KIRA",
+            "link": "https://janitorai.com/characters/a4dad1b7-a116-4076-aec5-8034ade90eaa_character-kira",
+            "img": "https://ella.janitorai.com/bot-avatars/bJsb1bMW59VXymoCZ4xDp.webp?width=400",
+            "corrupted": true,
+            "org": "Hynbrid-Kira",
+            "org_link": "https://www.deviantart.com/hybrid-kira/gallery",
+            "desc": "",
+            "tags": []
+          }
+
+        
     ],
 
     "view-tsc": [
